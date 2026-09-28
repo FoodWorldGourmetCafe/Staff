@@ -1,3 +1,4 @@
+
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Food World Staff Reference</title>
 <style>
@@ -16,77 +17,80 @@ section{margin:26px 0 44px} .title-row{display:flex;gap:14px;align-items:end;bor
 .alert{padding:16px 18px;border:1px solid #735e38;border-left:4px solid var(--gold);background:#17283a;border-radius:10px;margin-bottom:15px} .gf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px} .gf-card h3{color:var(--gold)} ul{padding-left:20px} li{margin:7px 0} .yes{color:var(--green)} .no{color:var(--red)} table{width:100%;border-collapse:collapse} td,th{padding:10px;border-bottom:1px solid #294866;text-align:left} th{color:var(--gold)} footer{padding:30px;text-align:center;color:#8098ad;border-top:1px solid #294866}
 @media(max-width:600px){nav{justify-content:flex-start;overflow:auto} main{padding:18px} .menu-grid{grid-template-columns:1fr}}
 
-.admin-btn{margin-left:auto;color:var(--gold);background:#102f4e;border:1px solid #6b5b37;border-radius:999px;padding:9px 15px;font-weight:800;cursor:pointer}
-.admin-modal{display:none;position:fixed;inset:0;z-index:100;background:#020b13d9;backdrop-filter:blur(8px);padding:22px;overflow:auto}
-.admin-modal.open{display:block}.admin-box{max-width:760px;margin:5vh auto;background:linear-gradient(145deg,#102d4a,#081d31);border:1px solid #426585;border-radius:18px;padding:22px;box-shadow:0 24px 70px #0008}
-.admin-top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:18px}.admin-top h3{font:700 25px Georgia;color:var(--gold)}
-.admin-close,.admin-action{border:1px solid #426585;background:#0b2238;color:#fff;border-radius:10px;padding:10px 13px;cursor:pointer}.admin-action.primary{border-color:var(--gold);color:#ffe9b7}.admin-action.danger{border-color:#8d4949;color:#ffc2c2}
-.admin-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.admin-form label{color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.05em}.admin-form input{width:100%;margin-top:5px;padding:12px;border:1px solid #426585;border-radius:10px;background:#071827;color:#fff}.admin-form .wide{grid-column:1/-1}
-.admin-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.admin-status{margin-top:12px;color:var(--gold)}.admin-note{color:var(--muted);font-size:12px;margin-top:14px}
-@media(max-width:600px){.admin-form{grid-template-columns:1fr}.admin-form .wide{grid-column:auto}.admin-btn{margin-left:0}}
+.admin-section{margin-top:34px}.admin-btn{border:0;border-radius:10px;padding:12px 18px;background:var(--gold);color:#102338;font-weight:800;cursor:pointer;margin-top:12px}.admin-btn.secondary{background:#dbe5ee}.admin-btn.danger{background:#d46a6a;color:#fff}.admin-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.admin-label{display:block;color:var(--gold);font-size:11px;letter-spacing:.12em;font-weight:800;margin:15px 0 6px}.admin-number-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}.admin-number-row .admin-btn{margin-top:0;height:100%}.admin-actions{display:flex;gap:10px;flex-wrap:wrap}.db-status{font-size:11px;color:var(--muted);margin-top:8px}
+
+
+.admin-avatar{position:fixed;top:18px;right:20px;z-index:900;width:46px;height:46px;border-radius:50%;border:1px solid rgba(214,177,94,.65);background:#10283d;color:var(--gold);display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.25);transition:.18s ease}.admin-avatar:hover{transform:translateY(-1px);background:#173650}.admin-avatar svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.admin-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px}.admin-modal.open{display:flex}.admin-backdrop{position:absolute;inset:0;background:rgba(3,13,23,.72);backdrop-filter:blur(6px)}.admin-dialog{position:relative;z-index:1;width:min(560px,100%);max-height:88vh;overflow:auto;background:#10283d;border:1px solid #31516b;border-radius:18px;padding:25px;box-shadow:0 24px 70px rgba(0,0,0,.45)}.admin-close{position:absolute;top:12px;right:14px;border:0;background:transparent;color:#b9c8d5;font-size:30px;line-height:1;cursor:pointer}.admin-dialog .title-row{padding-right:36px;margin-bottom:18px}.admin-dialog .admin-section{margin-top:0}
+@media(max-width:600px){.admin-avatar{top:12px;right:12px;width:42px;height:42px}.admin-dialog{padding:20px 16px;border-radius:15px}}
 
 </style></head><body>
+
+<button id="adminAvatarBtn" class="admin-avatar" aria-label="Administrator login" title="Administrator">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="8" r="4"></circle>
+    <path d="M4.5 20c.7-4.2 3.2-6.5 7.5-6.5s6.8 2.3 7.5 6.5"></path>
+  </svg>
+</button>
+
 <header><div class="brand">FOOD WORLD · INTERNAL STAFF REFERENCE</div><h1>Service Reference</h1><div class="sub">Fast menu lookup, sauce ingredients and gluten-free preparation notes. Built for front-of-house reference.</div></header>
-<nav><a href="#menu">01 Menu Lookup</a><a href="#sauces">02 Sauces & Ingredients</a><a href="#gf">03 Gluten Free</a><button id="adminOpen" class="admin-btn">⚙ Admin</button></nav>
+<nav><a href="#menu">01 Menu Lookup</a><a href="#sauces">02 Sauces & Ingredients</a><a href="#gf">03 Gluten Free</a></nav>
 <main>
-<section id="menu"><div class="title-row"><div class="num">01</div><div><h2>Menu Lookup</h2><div class="hint">输入菜品编号或菜名，例如 74 / Sate Chicken / Pork Chop</div></div></div>
-<input id="q" class="search" placeholder="Search menu number or dish name… e.g. 74 / Pork Chop" autocomplete="off"><div id="count" class="result-count"></div><div id="results" class="menu-grid"></div></section>
+<section id="menu"><div class="title-row"><div class="num">01</div><div><h2>Menu Lookup</h2><div class="hint">输入编号、菜名或缩写，例如 74 / Mongolian / Bf / Pad Thai</div></div></div>
+<input id="q" class="search" placeholder="Search menu number, dish or abbreviation…" autocomplete="off"><div id="count" class="result-count"></div><div id="results" class="menu-grid"></div></section>
 <section id="sauces"><div class="title-row"><div class="num">02</div><div><h2>Sauces & Ingredients</h2><div class="hint">员工笔记中的 sauce 颜色、配菜和关键 ingredients</div></div></div>
 <input id="sauceQ" class="search" placeholder="Search sauce or ingredient… e.g. Sate / peanut / capsicum" autocomplete="off">
 <div id="sauceCount" class="result-count"></div><div id="sauceResults" class="sauce-grid"></div>
 <div id="sauceSource" style="display:none"><article class="sauce-card"><div class="sauce-head"><h3>Kung Pao</h3><span>Light brown</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · dry chilli · peanuts · carrot · capsicum</p><small>Contains peanuts; chilli</small></div></article><article class="sauce-card"><div class="sauce-head"><h3>Mongolian</h3><span>Brown</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · carrot · capsicum · shallot</p></div></article><article class="sauce-card"><div class="sauce-head"><h3>Special</h3><span>Light brown</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · capsicum · carrot · shallot · celery</p><small>Similar colour to Mongolian</small></div></article><article class="sauce-card"><div class="sauce-head"><h3>Sate</h3><span>Dark yellow</span></div><div><b>VEG / INGREDIENTS</b><p>Rice: onion only. Other dishes: carrot · onion · broccoli · cauliflower · snow pea · mushroom etc.</p></div></article><article class="sauce-card"><div class="sauce-head"><h3>Curry</h3><span>Bright yellow</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · green bean · carrot · shallot</p></div></article><article class="sauce-card"><div class="sauce-head"><h3>Szechuan</h3><span>Red chilli sauce</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · capsicum · carrot · shallot</p><small>Chilli</small></div></article><article class="sauce-card"><div class="sauce-head"><h3>Oyster</h3><span>Light brown</span></div><div><b>VEG / INGREDIENTS</b><p>Carrot · mushroom · Chinese mushroom · baby corn · vegetables</p></div></article><article class="sauce-card"><div class="sauce-head"><h3>Black Bean</h3><span>Dark brown</span></div><div><b>VEG / INGREDIENTS</b><p>Carrot · capsicum · onion</p><small>Black bean bits</small></div></article><article class="sauce-card"><div class="sauce-head"><h3>Sizzling Sauce</h3><span>Dark brown</span></div><div><b>VEG / INGREDIENTS</b><p>Choi sum</p><small>Served on sizzling pan</small></div></article><article class="sauce-card"><div class="sauce-head"><h3>Black Pepper</h3><span>Dark brown</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · capsicum · carrot</p><small>Served on sizzling pan</small></div></article><article class="sauce-card"><div class="sauce-head"><h3>Peking</h3><span>Bright red</span></div><div><b>VEG / INGREDIENTS</b><p>Choi sum · mushroom · baby corn</p><small>Served on sizzling pan</small></div></article><article class="sauce-card"><div class="sauce-head"><h3>Sweet & Sour</h3><span>Orange-red</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · carrot · capsicum · pineapple</p></div></article><article class="sauce-card"><div class="sauce-head"><h3>Salty Spicy</h3><span>Dry / no sauce</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · carrot · capsicum</p></div></article><article class="sauce-card"><div class="sauce-head"><h3>Balacan</h3><span>Brown</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · green bean · capsicum · celery</p><small>Strong aroma; chilli</small></div></article><article class="sauce-card"><div class="sauce-head"><h3>Plum</h3><span>Orange-red</span></div><div><b>VEG / INGREDIENTS</b><p>Onion · capsicum · carrot</p><small>Usually Pork Rib or BBQ Pork</small></div></article></div></section>
 <section id="gf"><div class="title-row"><div class="num">03</div><div><h2>Gluten Free</h2><div class="hint">Table sauces quick reference</div></div></div><div class="gf-card" style="margin-top:12px"><h3>Table Sauces — as written in staff notes</h3><table><tr><th>Sauce</th><th>GF</th></tr>
-<tr><td>Soy Sauce</td><td class="no">✕</td></tr><tr><td>Hoisin Sauce</td><td class="no">✕</td></tr><tr><td>Chilli Sauce</td><td class="no">✕</td></tr><tr><td>Tomato Sauce</td><td class="yes">✓</td></tr><tr><td>Fish Sauce</td><td class="yes">✓</td></tr><tr><td>Ginger Sauce</td><td class="yes">✓</td></tr><tr><td>XO Sauce</td><td class="no">✕</td></tr><tr><td>Veggie Sauce</td><td class="no">✕</td></tr><tr><td>Pepper Sauce</td><td class="no">✕</td></tr></table><div class="hint" style="margin-top:14px;text-align:right;font-style:italic;">To be updated</div></div></section></main><footer>Internal staff reference · Kitchen confirmation overrides this guide.</footer>
-<div id="adminModal" class="admin-modal">
-  <div class="admin-box">
-    <div class="admin-top"><h3>Admin · Menu Editor</h3><button id="adminClose" class="admin-close">Close</button></div>
+<tr><td>Soy Sauce</td><td class="no">✕</td></tr><tr><td>Hoisin Sauce</td><td class="no">✕</td></tr><tr><td>Chilli Sauce</td><td class="no">✕</td></tr><tr><td>Tomato Sauce</td><td class="yes">✓</td></tr><tr><td>Fish Sauce</td><td class="yes">✓</td></tr><tr><td>Ginger Sauce</td><td class="yes">✓</td></tr><tr><td>XO Sauce</td><td class="no">✕</td></tr><tr><td>Veggie Sauce</td><td class="no">✕</td></tr><tr><td>Pepper Sauce</td><td class="no">✕</td></tr></table><div class="hint" style="margin-top:14px;text-align:right;font-style:italic;">To be updated</div></div></section>
 
-    <div id="adminLogin">
-      <div class="admin-form">
-        <label>Username<input id="adminUser" autocomplete="username"></label>
-        <label>Password<input id="adminPass" type="password" autocomplete="current-password"></label>
-      </div>
-      <div class="admin-actions"><button id="adminLoginBtn" class="admin-action primary">Login</button></div>
-      <div id="loginStatus" class="admin-status"></div>
+<div id="adminModal" class="admin-modal" aria-hidden="true">
+  <div class="admin-backdrop" id="adminBackdrop"></div>
+  <div class="admin-dialog" role="dialog" aria-modal="true" aria-label="Administrator">
+    <button id="adminCloseBtn" class="admin-close" aria-label="Close">×</button>
+    
+  <div class="title-row"><div class="num">04</div><div><h2>Admin</h2><div class="hint">Supabase database management</div></div></div>
+  <div id="adminLogin" class="gf-card">
+    <h3>Administrator Login</h3>
+    <input id="adminEmail" class="search" type="email" placeholder="Admin email" autocomplete="username">
+    <input id="adminPassword" class="search" type="password" placeholder="Admin password" autocomplete="current-password" style="margin-top:10px">
+    <button id="adminLoginBtn" class="admin-btn">Login</button>
+    <div id="adminLoginMsg" class="result-count"></div>
+  </div>
+  <div id="adminPanel" class="gf-card" style="display:none">
+    <div class="admin-top"><h3>Menu Editor</h3><button id="adminLogoutBtn" class="admin-btn secondary">Logout</button></div>
+    <label class="admin-label">Menu Number</label>
+    <div class="admin-number-row">
+      <input id="adminMenuNo" class="search" inputmode="numeric" placeholder="Enter menu number">
+      <button id="adminLoadBtn" class="admin-btn">Load</button>
     </div>
+    <div id="adminLookupMsg" class="result-count"></div>
+    <label class="admin-label">Dish Name</label>
+    <input id="adminDishName" class="search" placeholder="Dish name">
+    <label class="admin-label">Shorthand</label>
+    <input id="adminAbbr" class="search" placeholder="Staff shorthand">
+    <label class="admin-label">Sauce</label>
+    <input id="adminSauce" class="search" placeholder="Sauce">
+    <div class="admin-actions">
+      <button id="adminSaveBtn" class="admin-btn">Save / Add</button>
+      <button id="adminDeleteBtn" class="admin-btn danger">Delete</button>
+    </div>
+    <div id="adminActionMsg" class="result-count"></div>
+  </div>
 
-    <div id="adminEditor" style="display:none">
-      <div class="admin-form">
-        <label>Menu Number<input id="editNo" type="number" min="1"></label>
-        <label>Dish Name<input id="editName"></label>
-        <label class="wide">Staff Shorthand<input id="editAbbr"></label>
-        <label class="wide">Sauce<input id="editSauce" placeholder="e.g. Fish sauce"></label>
-      </div>
-      <div class="admin-actions">
-        <button id="loadDish" class="admin-action">Load / Find</button>
-        <button id="saveDish" class="admin-action primary">Save / Add Dish</button>
-        <button id="deleteDish" class="admin-action danger">Delete Dish</button>
-        <button id="adminLogout" class="admin-action">Logout</button>
-      </div>
-      <div id="adminStatus" class="admin-status"></div>
-      <div class="admin-note">Changes are saved on this device/browser. They do not change the original HTML file or automatically sync to other staff devices.</div>
-    </div>
   </div>
 </div>
 
+</main><footer>Internal staff reference · Kitchen confirmation overrides this guide.</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-let menu=[{"no": 1,"name": "Food World Spring Roll (6 pieces)","abbr": "SP roll · Sauce: Fish sauce"},{"no": 2,"name": "Vegetarian Spring Roll (4 Pieces)","abbr": "veg SP roll (egg) or (no egg) · Sauce: Veg sauce"},{"no": 3,"name": "Deep Fried Dim Sim (4 Pieces)","abbr": "Fried DS"},{"no": 4,"name": "Deep Fried Mango & Prawn Roll (2 Pieces)","abbr": "mango roll"},{"no": 5,"name": "Deep Fried Chicken Wings (4 Pieces)","abbr": "Fried Ch Wings"},{"no": 6,"name": "Prawn Dumpling (5 Pieces)","abbr": "Pr dumpling · Sauce: Pepper sauce"},{"no": 7,"name": "Steamed Dim Sim (4 Pieces)","abbr": "(St) DS · Sauce: XO sauce"},{"no": 8,"name": "Steamed BBQ Pork Bun (3 Pieces)","abbr": "BBQ Pk Bun"},{"no": 9,"name": "Steam Pork Soup Dumplings (Xiao Long Bao) (6 Pieces)","abbr": "Xiao Long Bao"},{"no": 10,"name": "Vegetarian Mushroom Bun (3 Pieces)","abbr": "veg mush bun (egg) or (no egg)"},{"no": 11,"name": "Steamed Pork & Prawn Dumplings (6 Pieces)","abbr": "St dumpling · Sauce: Veg sauce"},{"no": 12,"name": "Sate Chicken Stick (3 Pieces)","abbr": "Ch sti"},{"no": 13,"name": "Sate Beef Stick (3 Pieces)","abbr": "Bf sti"},{"no": 14,"name": "Pork Rice Paper Roll (3 Pieces)","abbr": "Pk roll"},{"no": 15,"name": "Prawn Rice Paper Roll (3 Pieces)","abbr": "Pr roll"},{"no": 16,"name": "Panfry Pork & Prawn Dumplings (6 Pieces)","abbr": "Panfry Pk & Pr dumplings"},{"no": 17,"name": "San Choy Bow (2 Pieces)","abbr": "San Choy Bow"},{"no": 18,"name": "Vegetarian Rice Paper Roll (3 Pieces)","abbr": "veg paper roll (egg) or (no egg)"},{"no": 19,"name": "Chicken Salad","abbr": "Ch Salad"},{"no": 20,"name": "Chilli Octopus Salad","abbr": "Oct salad"},{"no": 21,"name": "Salty and Spicy Pepper Squid","abbr": "Squid"},{"no": 22,"name": "Salt & Spicy Pepper Tofu","abbr": "Salty & Spicy Tofu"},{"no": 23,"name": "Salt & Spicy Pepper Pork","abbr": "Salty & Spicy Pk"},{"no": 24,"name": "Chicken Corn Soup","abbr": "S/C Ch soup"},{"no": 25,"name": "Wonton Soup","abbr": "Wonton soup"},{"no": 26,"name": "Wonton Noodles Soup","abbr": "Wonton N soup · Ⓝ / Ⓡ"},{"no": 27,"name": "BBQ Pk Wonton Noodles Soup","abbr": "BBQ Wonton N soup · Ⓝ / Ⓡ"},{"no": 28,"name": "Stewed Beef Noodles Soup","abbr": "Stewed Bf N soup · Ⓝ / Ⓡ"},{"no": 29,"name": "Crispy Chicken Noodles Soup","abbr": "Crispy Ch N soup · Ⓝ / Ⓡ"},{"no": 30,"name": "Pork Chop Noodle Soup","abbr": "Pk Chop N soup · Ⓝ / Ⓡ · Sauce: Fish sauce"},{"no": 31,"name": "Shredded Pork Noodles Soup","abbr": "Shre Pk N soup · Ⓝ / Ⓡ"},{"no": 32,"name": "Food World Special Noodles Soup","abbr": "FW Spe N soup · Ⓝ / Ⓡ"},{"no": 33,"name": "Duck & Chinese Mushroom Noodles Soup","abbr": "Duck N soup · Ⓝ / Ⓡ"},{"no": 34,"name": "Combination Noodles Soup","abbr": "Comb N soup · Ⓝ / Ⓡ"},{"no": 35,"name": "Seafood Noodles Soup","abbr": "Seafood N soup · Ⓝ / Ⓡ"},{"no": 36,"name": "Beef Noodles Soup (Pho)","abbr": "Bf soup · Ⓝ / Ⓡ"},{"no": 37,"name": "Sate Vegetable Noodles Soup","abbr": "Sate Veg N soup (egg) or (no egg) · Ⓝ / Ⓡ"},{"no": 38,"name": "Sate Chicken Noodles Soup","abbr": "Sate Ch N soup · Ⓝ / Ⓡ"},{"no": 39,"name": "Sate Beef Noodles Soup","abbr": "Sate Bf N soup · Ⓝ / Ⓡ"},{"no": 40,"name": "Sate Combination Noodles Soup","abbr": "Sate Comb N soup · Ⓝ / Ⓡ"},{"no": 41,"name": "Sate King Prawn Noodles Soup","abbr": "Sate KPr N soup · Ⓝ / Ⓡ"},{"no": 42,"name": "Sate Seafood Noodles Soup","abbr": "Sate Seafood N soup · Ⓝ / Ⓡ"},{"no": 43,"name": "Vegetable Laksa Noodles Soup","abbr": "Veg Laksa (egg) or (no egg) · Ⓝ / Ⓡ"},{"no": 44,"name": "Chicken Laksa Noodles Soup","abbr": "Ch Laksa · Ⓝ / Ⓡ"},{"no": 45,"name": "Combination Laksa Noodles Soup","abbr": "Comb Laksa · Ⓝ / Ⓡ"},{"no": 46,"name": "King Prawn Laksa Noodles Soup","abbr": "KPr Laksa · Ⓝ / Ⓡ"},{"no": 47,"name": "Char Koew Tew","abbr": "CKT"},{"no": 48,"name": "Dry Beef Rice Noodles","abbr": "Dry Bf R"},{"no": 49,"name": "Dry Shredded Pk Rice Noodles","abbr": "Dry Shre Pk R"},{"no": 50,"name": "Singapore Thin Rice Noodles","abbr": "Sing N"},{"no": 51,"name": "Longmen Thin Rice Noodles","abbr": "Longmen 米"},{"no": 52,"name": "Shanghai Fried Noodles","abbr": "Shanghai N"},{"no": 53,"name": "Shanghai Fried Noodles with XO Sauce","abbr": "XO N"},{"no": 54,"name": "Dry Combination Shanghai Fried Noodles","abbr": "Dry Comb Shanghai N"},{"no": 55,"name": "Spring Roll Thin Rice Noodles (Cold)","abbr": "SP roll 米"},{"no": 56,"name": "Chicken Pad Thai","abbr": "Ch Pad Thai"},{"no": 57,"name": "Combination Pad Thai","abbr": "Comb Pad Thai"},{"no": 58,"name": "Vegetarian Fried Rice","abbr": "L veg F/Rice (egg) or (no egg) / S veg F/Rice (egg) or (no egg)"},{"no": 59,"name": "Food World Fried Rice","abbr": "L F/Rice / S F/Rice"},{"no": 60,"name": "Special Fried Rice","abbr": "L Spe F/Rice / S Spe F/Rice"},{"no": 61,"name": "Spicy Bubba Rice","abbr": "Spicy Bubba"},{"no": 62,"name": "Mapo Tofu Rice","abbr": "Mapo Tofu"},{"no": 63,"name": "Chicken Tofu Salty Fish and Rice","abbr": "Ch Tofu Salty Fish"},{"no": 64,"name": "Chicken and Salty Fish Fried Rice","abbr": "L F/Rice (SaltyFish&Ch) / S F/Rice (SaltyFish&Ch)"},{"no": 65,"name": "Beef and Lettuce Fried Rice","abbr": "L F/Rice (Bf&Lettuce) / S F/Rice (Bf&Lettuce)"},{"no": 66,"name": "Crispy Chicken & Tomato Rice","abbr": "Crispy Ch Tomato"},{"no": 67,"name": "Soya Chicken & BBQ Pork Rice","abbr": "Soya Ch & BBQ Pk"},{"no": 68,"name": "Soya Chicken & BBQ Pork Rice","abbr": "Crispy Ch & BBQ Pk"},{"no": 69,"name": "Crispy Chicken & BBQ Pork Rice","abbr": "Salty Pk Porridge"},{"no": 70,"name": "Seafood Porridge","abbr": "Seafood Porridge"},{"no": 71,"name": "Deep-fried Dough Sticks","abbr": "Dough Sticks"},{"no": 72,"name": "Prawn Chips","abbr": "Pr Chips"},{"no": 73,"name": "Chips","abbr": "Chips"},{"no": 74,"name": "Sweet Corn Chicken Soup","abbr": "S/C Ch soup"},{"no": 75,"name": "Spring Roll & Chips","abbr": "SP roll & Chips"},{"no": 76,"name": "Chicken Wing & Chips","abbr": "Ch Wings & Chips"},{"no": 77,"name": "Crispy Chicken & Chips","abbr": "Crispy Ch & Chips"},{"no": 78,"name": "Deep Fried Fish & Chips","abbr": "Fish & Chips"},{"no": 79,"name": "Mongolian Beef","abbr": "Mongo Bf"},{"no": 80,"name": "Sate Beef","abbr": "Rice: Sate Bf · Rice noodle: Dry Sate Bf"},{"no": 81,"name": "Black Bean Beef","abbr": "B/B Bf"},{"no": 82,"name": "Garlic Beef","abbr": "Garlic Bf"},{"no": 83,"name": "Oyster Beef","abbr": "Oyster Bf"},{"no": 84,"name": "Lemongrass Beef","abbr": "Lemon Bf"},{"no": 85,"name": "Szechwan Chilli Beef","abbr": "Szechuan Bf"},{"no": 86,"name": "Curried Beef","abbr": "Curry Bf"},{"no": 87,"name": "Special Sauce Beef","abbr": "Spe Bf"},{"no": 88,"name": "Beef and Vegetable","abbr": "Bf and Veg (egg) or (no egg)"},{"no": 89,"name": "Stewed Beef","abbr": "Stewed Bf"},{"no": 90,"name": "Soft Egg and Beef","abbr": "Soft Egg and Bf"},{"no": 91,"name": "Tomato Beef","abbr": "Tomato Bf"},{"no": 92,"name": "Sizzling Sauce Beef","abbr": "Siz Bf"},{"no": 93,"name": "Sizzling Black Pepper Beef","abbr": "Siz Pepper Bf"},{"no": 94,"name": "Sizzling Peking Sauce Beef","abbr": "Siz Peking Bf"},{"no": 95,"name": "T-bone Steak Tomato Rice","abbr": "T-bone Steak Tomato Rice"},{"no": 96,"name": "Sweet & Sour Pork","abbr": "S/S Pk"},{"no": 97,"name": "Salty & Spicy Pork","abbr": "Salty & Spicy Pk"},{"no": 98,"name": "Shredded Pork","abbr": "Shredded Pk"},{"no": 99,"name": "Balacan Shredded Pork","abbr": "Balacan Shredded Pk"},{"no": 100,"name": "Shredded Pork and Eggplant","abbr": "Shredded Pk and Eggplant"},{"no": 101,"name": "BBQ Pork Plum Sauce","abbr": "BBQ Pk Plum Sauce"},{"no": 102,"name": "Szechwan BBQ Pork","abbr": "Szechwan BBQ Pk"},{"no": 103,"name": "Pork Ribs Plum Sauce","abbr": "Pk Ribs Plum Sauce"},{"no": 104,"name": "Pork Ribs Salty & Spicy","abbr": "Pk Ribs Salty & Spicy"},{"no": 105,"name": "Bakute Rice","abbr": "Bakute Rice"},{"no": 106,"name": "Pork Chops with Broken Rice","abbr": "Pk Chops with Broken Rice · Sauce: Fish sauce"},{"no": 107,"name": "Grilled Pork Chop with Fried Rice","abbr": "L Grilled Pk Chop with Fried Rice / S Grilled Pk Chop with Fried Rice"},{"no": 108,"name": "Honey Chicken","abbr": "Honey Ch"},{"no": 109,"name": "Lemon Chicken","abbr": "Lemon Ch"},{"no": 110,"name": "Sweet & Sour Chicken","abbr": "S/S Ch"},{"no": 111,"name": "Billy Kee Chicken","abbr": "Billy Kee Ch"},{"no": 112,"name": "Cashew Nut Chicken","abbr": "Cashew Nut Ch"},{"no": 113,"name": "Kung Pao Chicken","abbr": "Kung Pao Ch"},{"no": 114,"name": "Mongolian Chicken","abbr": "Mongo Ch"},{"no": 115,"name": "Sate Chicken","abbr": "Rice: Sate Ch · Rice noodle: Dry Sate Ch"},{"no": 116,"name": "Black Bean Chicken","abbr": "B/B Ch"},{"no": 117,"name": "Garlic Chicken","abbr": "Garlic Ch"},{"no": 118,"name": "Oyster Chicken","abbr": "Oyster Ch"},{"no": 119,"name": "Lemongrass Chicken","abbr": "Lemon Ch"},{"no": 120,"name": "Szechwan Chilli Chicken","abbr": "Szechuan Ch"},{"no": 121,"name": "Curried Chicken","abbr": "Curry Ch"},{"no": 122,"name": "Balacan Chicken","abbr": "Balacan Ch"},{"no": 123,"name": "Special Sauce Chicken","abbr": "Spe Ch"},{"no": 124,"name": "Sizzling Sauce Chicken","abbr": "Siz Ch"},{"no": 125,"name": "Sizzling Black Pepper Chicken","abbr": "Siz Pepper Ch"},{"no": 126,"name": "Sizzling Peking Sauce Chicken","abbr": "Siz Peking Ch"},{"no": 127,"name": "Chicken and Vegetable","abbr": "Ch and Veg (egg) or (no egg)"},{"no": 128,"name": "Soya Chicken","abbr": "Soya Ch · Sauce: Ginger sauce"},{"no": 129,"name": "Crispy Chicken","abbr": "Small: Roast Ch (only) · Large: Roast Ch (M) · Sauce: Fish sauce"},{"no": 130,"name": "Hainan Chicken & Rice","abbr": "Hainan Ch & Rice · Sauce: Ginger sauce · Hainan fish sauce"},{"no": 131,"name": "Grill Black Pepper Chicken & Rice","abbr": "Grill Black Pepper Ch & Rice"},{"no": 132,"name": "Dry Sate chicken rice noodle","abbr": "Dry Sate Ch R"},{"no": 133,"name": "Combination","abbr": "Comb"},{"no": 134,"name": "Sate Combination","abbr": "Rice: Sate Comb · Rice noodle: Dry Sate Comb"},{"no": 135,"name": "Mongolian Combination","abbr": "Mongo Comb"},{"no": 136,"name": "Black Bean Combination","abbr": "B/B Comb"},{"no": 137,"name": "Garlic Combination","abbr": "Garlic Comb"},{"no": 138,"name": "Oyster Combination","abbr": "Oyster Comb"},{"no": 139,"name": "Lemongrass Combination","abbr": "Lemon Comb"},{"no": 140,"name": "Szechwan Chilli Combination","abbr": "Szechuan Comb"},{"no": 141,"name": "Curried Combination","abbr": "Curry Comb"},{"no": 142,"name": "Special Sauce Combination","abbr": "Spe Comb"},{"no": 143,"name": "Sizzling Sauce Combination","abbr": "Siz Comb"},{"no": 144,"name": "Sizzling Black Pepper Combination","abbr": "Siz Pepper Comb"},{"no": 145,"name": "Sizzling Peking Sauce Combination","abbr": "Siz Peking Comb"},{"no": 146,"name": "Vegetarian Omelet","abbr": "Veg Omelet (egg) or (no egg)"},{"no": 147,"name": "Chicken Omelet","abbr": "Ch Omelet"},{"no": 148,"name": "BBQ Pork Omelet","abbr": "BBQ Pk Omelet"},{"no": 149,"name": "Combination Omelet","abbr": "Comb Omelet"},{"no": 150,"name": "King Prawn Omelet","abbr": "KPr Omelet"},{"no": 151,"name": "Honey King Prawn","abbr": "Honey KPr"},{"no": 152,"name": "Salty & Spicy King Prawn","abbr": "Salty & Spicy KPr"},{"no": 153,"name": "Kung Pao King Prawn","abbr": "Kung Pao KPr"},{"no": 154,"name": "Sate King Prawn","abbr": "Rice: Sate KPr · Rice noodle: Dry Sate KPr"},{"no": 155,"name": "Garlic King Prawn","abbr": "Garlic KPr"},{"no": 156,"name": "Szechwan Chilli King Prawn","abbr": "Szechuan KPr"},{"no": 157,"name": "Curried King Prawn","abbr": "Curry KPr"},{"no": 158,"name": "Sizzling Black Pepper King Prawn","abbr": "Siz Pepper KPr"},{"no": 159,"name": "Sizzling Sauce King Prawn","abbr": "Siz KPr"},{"no": 160,"name": "Sizzling Peking Sauce King Prawn","abbr": "Siz Peking KPr"},{"no": 161,"name": "Sate Seafood","abbr": "Rice: Sate Seafood · Rice noodle: Dry Sate Seafood"},{"no": 162,"name": "Garlic Seafood","abbr": "Garlic Seafood"},{"no": 163,"name": "Szechwan Chilli Seafood","abbr": "Szechuan Seafood"},{"no": 164,"name": "Curried Seafood","abbr": "Curry Seafood"},{"no": 165,"name": "Fried Fish Sweet Corn Sauce Rice","abbr": "Fried Fish Sweet Corn Sauce Rice"},{"no": 166,"name": "Sweet & Sour Fish Rice","abbr": "S/S Fish Rice"},{"no": 167,"name": "Grilled Seafood Fried Rice","abbr": "L Grilled Seafood Fried Rice / S Grilled Seafood Fried Rice"},{"no": 168,"name": "Vegetarian Char Koew Tew","abbr": "veg CKT (egg) or (no egg)"},{"no": 169,"name": "Vegetarian Singapore Thin Rice Noodles","abbr": "Veg Singapore Thin Rice Noodles (egg) or (no egg)"},{"no": 170,"name": "Vegetarian Shanghai Fried Noodles","abbr": "Veg Shanghai Fried Noodles"},{"no": 171,"name": "Vegetarian Pad Thai","abbr": "Veg Pad Thai (egg) or (no egg)"},{"no": 172,"name": "Green Vegetable","abbr": "Green Veg (egg) or (no egg)"},{"no": 173,"name": "Mix Vegetable","abbr": "Mix Veg (egg) or (no egg)"},{"no": 174,"name": "Sate Vegetable","abbr": "Rice: Sate Veg (egg) or (no egg) · Rice noodle: Dry Sate Veg (egg) or (no egg)"},{"no": 175,"name": "Black Bean Vegetable","abbr": "B/B Veg (egg) or (no egg)"},{"no": 176,"name": "Garlic Vegetable","abbr": "Garlic Veg (egg) or (no egg)"},{"no": 177,"name": "Oyster Vegetable","abbr": "Oyster Veg (egg) or (no egg)"},{"no": 178,"name": "Curried Vegetable","abbr": "Curry Veg (egg) or (no egg)"},{"no": 179,"name": "Sizzling Sauce Vegetable","abbr": "Siz Veg (egg) or (no egg)"},{"no": 180,"name": "Sizzling Peking Sauce Vegetable","abbr": "Siz Peking Veg (egg) or (no egg)"},{"no": 181,"name": "Vegetarian Fried Rice","abbr": "L Veg Fried Rice (egg) or (no egg) / S Veg Fried Rice (egg) or (no egg)"},{"no": 182,"name": "Ice Milk Tea","abbr": "Ice Milk Tea"},{"no": 183,"name": "Ice Lemon Tea","abbr": "Ice Lemon Tea"},{"no": 184,"name": "Ice Coffee","abbr": "Ice Coffee"},{"no": 187,"name": "Coconut Drink","abbr": "Coconut Drink"}];
-
-const ADMIN_STORAGE_KEY='foodWorldMenuV1';
-try{
- const savedMenu=localStorage.getItem(ADMIN_STORAGE_KEY);
- if(savedMenu) menu=JSON.parse(savedMenu);
-}catch(e){ console.warn('Could not load saved menu',e); }
-
-function persistMenu(){
- menu.sort((a,b)=>Number(a.no)-Number(b.no));
- localStorage.setItem(ADMIN_STORAGE_KEY,JSON.stringify(menu));
-}
-
+const fallbackMenu=[{"no": 1,"name": "Food World Spring Roll (6 pieces)","abbr": "SP roll · Sauce: Fish sauce"},{"no": 2,"name": "Vegetarian Spring Roll (4 Pieces)","abbr": "veg SP roll (egg) or (no egg) · Sauce: Veg sauce"},{"no": 3,"name": "Deep Fried Dim Sim (4 Pieces)","abbr": "Fried DS"},{"no": 4,"name": "Deep Fried Mango & Prawn Roll (2 Pieces)","abbr": "mango roll"},{"no": 5,"name": "Deep Fried Chicken Wings (4 Pieces)","abbr": "Fried Ch Wings"},{"no": 6,"name": "Prawn Dumpling (5 Pieces)","abbr": "Pr dumpling · Sauce: Pepper sauce"},{"no": 7,"name": "Steamed Dim Sim (4 Pieces)","abbr": "(St) DS · Sauce: XO sauce"},{"no": 8,"name": "Steamed BBQ Pork Bun (3 Pieces)","abbr": "BBQ Pk Bun"},{"no": 9,"name": "Steam Pork Soup Dumplings (Xiao Long Bao) (6 Pieces)","abbr": "Xiao Long Bao"},{"no": 10,"name": "Vegetarian Mushroom Bun (3 Pieces)","abbr": "veg mush bun (egg) or (no egg)"},{"no": 11,"name": "Steamed Pork & Prawn Dumplings (6 Pieces)","abbr": "St Pk & Pr dumplings"},{"no": 12,"name": "Sate Chicken Stick (3 Pieces)","abbr": "Ch sti"},{"no": 13,"name": "Sate Beef Stick (3 Pieces)","abbr": "Bf sti"},{"no": 14,"name": "Pork Rice Paper Roll (3 Pieces)","abbr": "Pk roll"},{"no": 15,"name": "Prawn Rice Paper Roll (3 Pieces)","abbr": "Pr roll"},{"no": 16,"name": "Panfry Pork & Prawn Dumplings (6 Pieces)","abbr": "Panfry Pk & Pr dumplings"},{"no": 17,"name": "San Choy Bow (2 Pieces)","abbr": "San Choy Bow"},{"no": 18,"name": "Vegetarian Rice Paper Roll (3 Pieces)","abbr": "veg paper roll (egg) or (no egg)"},{"no": 19,"name": "Chicken Salad","abbr": "Ch Salad"},{"no": 20,"name": "Chilli Octopus Salad","abbr": "Oct salad"},{"no": 21,"name": "Salty and Spicy Pepper Squid","abbr": "Squid"},{"no": 22,"name": "Salt & Spicy Pepper Tofu","abbr": "Salty & Spicy Tofu"},{"no": 23,"name": "Salt & Spicy Pepper Pork","abbr": "Salty & Spicy Pk"},{"no": 24,"name": "Chicken Corn Soup","abbr": "S/C Ch soup"},{"no": 25,"name": "Wonton Soup","abbr": "Wonton soup"},{"no": 26,"name": "Wonton Noodles Soup","abbr": "Wonton N soup · Ⓝ / Ⓡ"},{"no": 27,"name": "BBQ Pk Wonton Noodles Soup","abbr": "BBQ Wonton N soup · Ⓝ / Ⓡ"},{"no": 28,"name": "Stewed Beef Noodles Soup","abbr": "Stewed Bf N soup · Ⓝ / Ⓡ"},{"no": 29,"name": "Crispy Chicken Noodles Soup","abbr": "Crispy Ch N soup · Ⓝ / Ⓡ"},{"no": 30,"name": "Pork Chop Noodle Soup","abbr": "Pk Chop N soup · Ⓝ / Ⓡ"},{"no": 31,"name": "Shredded Pork Noodles Soup","abbr": "Shre Pk N soup · Ⓝ / Ⓡ"},{"no": 32,"name": "Food World Special Noodles Soup","abbr": "FW Spe N soup · Ⓝ / Ⓡ"},{"no": 33,"name": "Duck & Chinese Mushroom Noodles Soup","abbr": "Duck N soup · Ⓝ / Ⓡ"},{"no": 34,"name": "Combination Noodles Soup","abbr": "Comb N soup · Ⓝ / Ⓡ"},{"no": 35,"name": "Seafood Noodles Soup","abbr": "Seafood N soup · Ⓝ / Ⓡ"},{"no": 36,"name": "Beef Noodles Soup (Pho)","abbr": "Bf soup · Ⓝ / Ⓡ"},{"no": 37,"name": "Sate Vegetable Noodles Soup","abbr": "Sate Veg N soup (egg) or (no egg) · Ⓝ / Ⓡ"},{"no": 38,"name": "Sate Chicken Noodles Soup","abbr": "Sate Ch N soup · Ⓝ / Ⓡ"},{"no": 39,"name": "Sate Beef Noodles Soup","abbr": "Sate Bf N soup · Ⓝ / Ⓡ"},{"no": 40,"name": "Sate Combination Noodles Soup","abbr": "Sate Comb N soup · Ⓝ / Ⓡ"},{"no": 41,"name": "Sate King Prawn Noodles Soup","abbr": "Sate KPr N soup · Ⓝ / Ⓡ"},{"no": 42,"name": "Sate Seafood Noodles Soup","abbr": "Sate Seafood N soup · Ⓝ / Ⓡ"},{"no": 43,"name": "Vegetable Laksa Noodles Soup","abbr": "Veg Laksa (egg) or (no egg) · Ⓝ / Ⓡ"},{"no": 44,"name": "Chicken Laksa Noodles Soup","abbr": "Ch Laksa · Ⓝ / Ⓡ"},{"no": 45,"name": "Combination Laksa Noodles Soup","abbr": "Comb Laksa · Ⓝ / Ⓡ"},{"no": 46,"name": "King Prawn Laksa Noodles Soup","abbr": "KPr Laksa · Ⓝ / Ⓡ"},{"no": 47,"name": "Char Koew Tew","abbr": "CKT"},{"no": 48,"name": "Dry Beef Rice Noodles","abbr": "Dry Bf R"},{"no": 49,"name": "Dry Shredded Pk Rice Noodles","abbr": "Dry Shre Pk R"},{"no": 50,"name": "Singapore Thin Rice Noodles","abbr": "Sing N"},{"no": 51,"name": "Longmen Thin Rice Noodles","abbr": "Longmen 米"},{"no": 52,"name": "Shanghai Fried Noodles","abbr": "Shanghai N"},{"no": 53,"name": "Shanghai Fried Noodles with XO Sauce","abbr": "XO N"},{"no": 54,"name": "Dry Combination Shanghai Fried Noodles","abbr": "Dry Comb Shanghai N"},{"no": 55,"name": "Spring Roll Thin Rice Noodles (Cold)","abbr": "SP roll 米"},{"no": 56,"name": "Chicken Pad Thai","abbr": "Ch Pad Thai"},{"no": 57,"name": "Combination Pad Thai","abbr": "Comb Pad Thai"},{"no": 58,"name": "Vegetarian Fried Rice","abbr": "L veg F/Rice (egg) or (no egg) / S veg F/Rice (egg) or (no egg)"},{"no": 59,"name": "Food World Fried Rice","abbr": "L F/Rice / S F/Rice"},{"no": 60,"name": "Special Fried Rice","abbr": "L Spe F/Rice / S Spe F/Rice"},{"no": 61,"name": "Spicy Bubba Rice","abbr": "Spicy Bubba"},{"no": 62,"name": "Mapo Tofu Rice","abbr": "Mapo Tofu"},{"no": 63,"name": "Chicken Tofu Salty Fish and Rice","abbr": "Ch Tofu Salty Fish"},{"no": 64,"name": "Chicken and Salty Fish Fried Rice","abbr": "L F/Rice (SaltyFish&Ch) / S F/Rice (SaltyFish&Ch)"},{"no": 65,"name": "Beef and Lettuce Fried Rice","abbr": "L F/Rice (Bf&Lettuce) / S F/Rice (Bf&Lettuce)"},{"no": 66,"name": "Crispy Chicken & Tomato Rice","abbr": "Crispy Ch Tomato"},{"no": 67,"name": "Soya Chicken & BBQ Pork Rice","abbr": "Soya Ch & BBQ Pk"},{"no": 68,"name": "Soya Chicken & BBQ Pork Rice","abbr": "Crispy Ch & BBQ Pk"},{"no": 69,"name": "Crispy Chicken & BBQ Pork Rice","abbr": "Salty Pk Porridge"},{"no": 70,"name": "Seafood Porridge","abbr": "Seafood Porridge"},{"no": 71,"name": "Deep-fried Dough Sticks","abbr": "Dough Sticks"},{"no": 72,"name": "Prawn Chips","abbr": "Pr Chips"},{"no": 73,"name": "Chips","abbr": "Chips"},{"no": 74,"name": "Sweet Corn Chicken Soup","abbr": "S/C Ch soup"},{"no": 75,"name": "Spring Roll & Chips","abbr": "SP roll & Chips"},{"no": 76,"name": "Chicken Wing & Chips","abbr": "Ch Wings & Chips"},{"no": 77,"name": "Crispy Chicken & Chips","abbr": "Crispy Ch & Chips"},{"no": 78,"name": "Deep Fried Fish & Chips","abbr": "Fish & Chips"},{"no": 79,"name": "Mongolian Beef","abbr": "Mongo Bf"},{"no": 80,"name": "Sate Beef","abbr": "Rice: Sate Bf · Rice noodle: Dry Sate Bf"},{"no": 81,"name": "Black Bean Beef","abbr": "B/B Bf"},{"no": 82,"name": "Garlic Beef","abbr": "Garlic Bf"},{"no": 83,"name": "Oyster Beef","abbr": "Oyster Bf"},{"no": 84,"name": "Lemongrass Beef","abbr": "Lemon Bf"},{"no": 85,"name": "Szechwan Chilli Beef","abbr": "Szechuan Bf"},{"no": 86,"name": "Curried Beef","abbr": "Curry Bf"},{"no": 87,"name": "Special Sauce Beef","abbr": "Spe Bf"},{"no": 88,"name": "Beef and Vegetable","abbr": "Bf and Veg (egg) or (no egg)"},{"no": 89,"name": "Stewed Beef","abbr": "Stewed Bf"},{"no": 90,"name": "Soft Egg and Beef","abbr": "Soft Egg and Bf"},{"no": 91,"name": "Tomato Beef","abbr": "Tomato Bf"},{"no": 92,"name": "Sizzling Sauce Beef","abbr": "Siz Bf"},{"no": 93,"name": "Sizzling Black Pepper Beef","abbr": "Siz Pepper Bf"},{"no": 94,"name": "Sizzling Peking Sauce Beef","abbr": "Siz Peking Bf"},{"no": 95,"name": "T-bone Steak Tomato Rice","abbr": "T-bone Steak Tomato Rice"},{"no": 96,"name": "Sweet & Sour Pork","abbr": "S/S Pk"},{"no": 97,"name": "Salty & Spicy Pork","abbr": "Salty & Spicy Pk"},{"no": 98,"name": "Shredded Pork","abbr": "Shredded Pk"},{"no": 99,"name": "Balacan Shredded Pork","abbr": "Balacan Shredded Pk"},{"no": 100,"name": "Shredded Pork and Eggplant","abbr": "Shredded Pk and Eggplant"},{"no": 101,"name": "BBQ Pork Plum Sauce","abbr": "BBQ Pk Plum Sauce"},{"no": 102,"name": "Szechwan BBQ Pork","abbr": "Szechwan BBQ Pk"},{"no": 103,"name": "Pork Ribs Plum Sauce","abbr": "Pk Ribs Plum Sauce"},{"no": 104,"name": "Pork Ribs Salty & Spicy","abbr": "Pk Ribs Salty & Spicy"},{"no": 105,"name": "Bakute Rice","abbr": "Bakute Rice"},{"no": 106,"name": "Pork Chops with Broken Rice","abbr": "Pk Chops with Broken Rice"},{"no": 107,"name": "Grilled Pork Chop with Fried Rice","abbr": "L Grilled Pk Chop with Fried Rice / S Grilled Pk Chop with Fried Rice"},{"no": 108,"name": "Honey Chicken","abbr": "Honey Ch"},{"no": 109,"name": "Lemon Chicken","abbr": "Lemon Ch"},{"no": 110,"name": "Sweet & Sour Chicken","abbr": "S/S Ch"},{"no": 111,"name": "Billy Kee Chicken","abbr": "Billy Kee Ch"},{"no": 112,"name": "Cashew Nut Chicken","abbr": "Cashew Nut Ch"},{"no": 113,"name": "Kung Pao Chicken","abbr": "Kung Pao Ch"},{"no": 114,"name": "Mongolian Chicken","abbr": "Mongo Ch"},{"no": 115,"name": "Sate Chicken","abbr": "Rice: Sate Ch · Rice noodle: Dry Sate Ch"},{"no": 116,"name": "Black Bean Chicken","abbr": "B/B Ch"},{"no": 117,"name": "Garlic Chicken","abbr": "Garlic Ch"},{"no": 118,"name": "Oyster Chicken","abbr": "Oyster Ch"},{"no": 119,"name": "Lemongrass Chicken","abbr": "Lemon Ch"},{"no": 120,"name": "Szechwan Chilli Chicken","abbr": "Szechuan Ch"},{"no": 121,"name": "Curried Chicken","abbr": "Curry Ch"},{"no": 122,"name": "Balacan Chicken","abbr": "Balacan Ch"},{"no": 123,"name": "Special Sauce Chicken","abbr": "Spe Ch"},{"no": 124,"name": "Sizzling Sauce Chicken","abbr": "Siz Ch"},{"no": 125,"name": "Sizzling Black Pepper Chicken","abbr": "Siz Pepper Ch"},{"no": 126,"name": "Sizzling Peking Sauce Chicken","abbr": "Siz Peking Ch"},{"no": 127,"name": "Chicken and Vegetable","abbr": "Ch and Veg (egg) or (no egg)"},{"no": 128,"name": "Soya Chicken","abbr": "Soya Ch · Sauce: Ginger sauce"},{"no": 129,"name": "Crispy Chicken","abbr": "Small: Roast Ch (only) · Large: Roast Ch (M) · Sauce: Fish sauce"},{"no": 130,"name": "Hainan Chicken & Rice","abbr": "Hainan Ch & Rice · Sauce: Ginger sauce · Hainan fish sauce"},{"no": 131,"name": "Grill Black Pepper Chicken & Rice","abbr": "Grill Black Pepper Ch & Rice"},{"no": 132,"name": "Dry Sate chicken rice noodle","abbr": "Dry Sate Ch R"},{"no": 133,"name": "Combination","abbr": "Comb"},{"no": 134,"name": "Sate Combination","abbr": "Rice: Sate Comb · Rice noodle: Dry Sate Comb"},{"no": 135,"name": "Mongolian Combination","abbr": "Mongo Comb"},{"no": 136,"name": "Black Bean Combination","abbr": "B/B Comb"},{"no": 137,"name": "Garlic Combination","abbr": "Garlic Comb"},{"no": 138,"name": "Oyster Combination","abbr": "Oyster Comb"},{"no": 139,"name": "Lemongrass Combination","abbr": "Lemon Comb"},{"no": 140,"name": "Szechwan Chilli Combination","abbr": "Szechuan Comb"},{"no": 141,"name": "Curried Combination","abbr": "Curry Comb"},{"no": 142,"name": "Special Sauce Combination","abbr": "Spe Comb"},{"no": 143,"name": "Sizzling Sauce Combination","abbr": "Siz Comb"},{"no": 144,"name": "Sizzling Black Pepper Combination","abbr": "Siz Pepper Comb"},{"no": 145,"name": "Sizzling Peking Sauce Combination","abbr": "Siz Peking Comb"},{"no": 146,"name": "Vegetarian Omelet","abbr": "Veg Omelet (egg) or (no egg)"},{"no": 147,"name": "Chicken Omelet","abbr": "Ch Omelet"},{"no": 148,"name": "BBQ Pork Omelet","abbr": "BBQ Pk Omelet"},{"no": 149,"name": "Combination Omelet","abbr": "Comb Omelet"},{"no": 150,"name": "King Prawn Omelet","abbr": "KPr Omelet"},{"no": 151,"name": "Honey King Prawn","abbr": "Honey KPr"},{"no": 152,"name": "Salty & Spicy King Prawn","abbr": "Salty & Spicy KPr"},{"no": 153,"name": "Kung Pao King Prawn","abbr": "Kung Pao KPr"},{"no": 154,"name": "Sate King Prawn","abbr": "Rice: Sate KPr · Rice noodle: Dry Sate KPr"},{"no": 155,"name": "Garlic King Prawn","abbr": "Garlic KPr"},{"no": 156,"name": "Szechwan Chilli King Prawn","abbr": "Szechuan KPr"},{"no": 157,"name": "Curried King Prawn","abbr": "Curry KPr"},{"no": 158,"name": "Sizzling Black Pepper King Prawn","abbr": "Siz Pepper KPr"},{"no": 159,"name": "Sizzling Sauce King Prawn","abbr": "Siz KPr"},{"no": 160,"name": "Sizzling Peking Sauce King Prawn","abbr": "Siz Peking KPr"},{"no": 161,"name": "Sate Seafood","abbr": "Rice: Sate Seafood · Rice noodle: Dry Sate Seafood"},{"no": 162,"name": "Garlic Seafood","abbr": "Garlic Seafood"},{"no": 163,"name": "Szechwan Chilli Seafood","abbr": "Szechuan Seafood"},{"no": 164,"name": "Curried Seafood","abbr": "Curry Seafood"},{"no": 165,"name": "Fried Fish Sweet Corn Sauce Rice","abbr": "Fried Fish Sweet Corn Sauce Rice"},{"no": 166,"name": "Sweet & Sour Fish Rice","abbr": "S/S Fish Rice"},{"no": 167,"name": "Grilled Seafood Fried Rice","abbr": "L Grilled Seafood Fried Rice / S Grilled Seafood Fried Rice"},{"no": 168,"name": "Vegetarian Char Koew Tew","abbr": "veg CKT (egg) or (no egg)"},{"no": 169,"name": "Vegetarian Singapore Thin Rice Noodles","abbr": "Veg Singapore Thin Rice Noodles (egg) or (no egg)"},{"no": 170,"name": "Vegetarian Shanghai Fried Noodles","abbr": "Veg Shanghai Fried Noodles"},{"no": 171,"name": "Vegetarian Pad Thai","abbr": "Veg Pad Thai (egg) or (no egg)"},{"no": 172,"name": "Green Vegetable","abbr": "Green Veg (egg) or (no egg)"},{"no": 173,"name": "Mix Vegetable","abbr": "Mix Veg (egg) or (no egg)"},{"no": 174,"name": "Sate Vegetable","abbr": "Rice: Sate Veg (egg) or (no egg) · Rice noodle: Dry Sate Veg (egg) or (no egg)"},{"no": 175,"name": "Black Bean Vegetable","abbr": "B/B Veg (egg) or (no egg)"},{"no": 176,"name": "Garlic Vegetable","abbr": "Garlic Veg (egg) or (no egg)"},{"no": 177,"name": "Oyster Vegetable","abbr": "Oyster Veg (egg) or (no egg)"},{"no": 178,"name": "Curried Vegetable","abbr": "Curry Veg (egg) or (no egg)"},{"no": 179,"name": "Sizzling Sauce Vegetable","abbr": "Siz Veg (egg) or (no egg)"},{"no": 181,"name": "Sizzling Peking Sauce Vegetable","abbr": "Siz Peking Veg (egg) or (no egg)"},{"no": 182,"name": "Vegetarian Fried Rice","abbr": "L Veg Fried Rice (egg) or (no egg) / S Veg Fried Rice (egg) or (no egg)"},{"no": 183,"name": "Ice Milk Tea","abbr": "Ice Milk Tea"},{"no": 184,"name": "Ice Lemon Tea","abbr": "Ice Lemon Tea"},{"no": 185,"name": "Ice Coffee","abbr": "Ice Coffee"},{"no": 187,"name": "Coconut Drink","abbr": "Coconut Drink"}];
+let menu = fallbackMenu.map(x=>({...x}));
 const q=document.getElementById('q'), results=document.getElementById('results'), count=document.getElementById('count');
 function render(){
  const s=q.value.trim().toLowerCase();
- let rows=menu.filter(x=>!s || String(x.no)===s || x.name.toLowerCase().includes(s));
+ let rows=menu.filter(x=>!s || String(x.no)===s || x.name.toLowerCase().includes(s) || x.abbr.toLowerCase().includes(s));
  count.textContent = s ? `${rows.length} result${rows.length===1?'':'s'}` : '';
  if (!s) { results.innerHTML = ''; return; }
  if (!s) { results.innerHTML = ''; return; }
@@ -151,88 +155,117 @@ function renderSauces(){
 }
 sauceQ.addEventListener('input',renderSauces);
 
-// Local admin editor
+
+// ---- Admin profile modal ----
 const adminModal=document.getElementById('adminModal');
-const adminOpen=document.getElementById('adminOpen');
-const adminClose=document.getElementById('adminClose');
+const adminAvatarBtn=document.getElementById('adminAvatarBtn');
+const adminCloseBtn=document.getElementById('adminCloseBtn');
+const adminBackdrop=document.getElementById('adminBackdrop');
+function openAdminModal(){adminModal.classList.add('open');adminModal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+function closeAdminModal(){adminModal.classList.remove('open');adminModal.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+adminAvatarBtn.addEventListener('click',openAdminModal);
+adminCloseBtn.addEventListener('click',closeAdminModal);
+adminBackdrop.addEventListener('click',closeAdminModal);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&adminModal.classList.contains('open'))closeAdminModal();});
+
+// ---- Supabase database layer ----
+const SUPABASE_URL = 'https://grfmzhqcracqfcgcwfgk.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable__ghGvpLTaP7sDMk53rSoIQ_rpydQuT6';
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+});
+
+function dbRowToMenu(x){
+  const sauce=(x.sauce||'').trim();
+  const base=(x.abbreviation||'').trim();
+  return {no:x.menu_number,name:x.dish_name,abbr:base+(sauce?' · Sauce: '+sauce:'')};
+}
+async function refreshMenuFromDatabase(){
+  const {data,error}=await db.from('menu').select('menu_number,dish_name,abbreviation,sauce').order('menu_number');
+  if(error){ console.warn('Database unavailable; using offline menu.',error); return false; }
+  if(data && data.length){ menu=data.map(dbRowToMenu); if(q.value.trim()) render(); return true; }
+  return false;
+}
+refreshMenuFromDatabase();
+
 const adminLogin=document.getElementById('adminLogin');
-const adminEditor=document.getElementById('adminEditor');
-const adminUser=document.getElementById('adminUser');
-const adminPass=document.getElementById('adminPass');
-const loginStatus=document.getElementById('loginStatus');
-const adminStatus=document.getElementById('adminStatus');
-const editNo=document.getElementById('editNo');
-const editName=document.getElementById('editName');
-const editAbbr=document.getElementById('editAbbr');
-const editSauce=document.getElementById('editSauce');
+const adminPanel=document.getElementById('adminPanel');
+const adminEmail=document.getElementById('adminEmail');
+const adminPassword=document.getElementById('adminPassword');
+const adminLoginMsg=document.getElementById('adminLoginMsg');
+const adminMenuNo=document.getElementById('adminMenuNo');
+const adminDishName=document.getElementById('adminDishName');
+const adminAbbr=document.getElementById('adminAbbr');
+const adminSauce=document.getElementById('adminSauce');
+const adminLookupMsg=document.getElementById('adminLookupMsg');
+const adminActionMsg=document.getElementById('adminActionMsg');
 
-const LOCAL_ADMINS=[
- {u:'admin',p:'dxf'},
- {u:'admin 2',p:'gsh'}
-];
-
-function openAdmin(){adminModal.classList.add('open');}
-function closeAdmin(){adminModal.classList.remove('open');}
-adminOpen.addEventListener('click',openAdmin);
-adminClose.addEventListener('click',closeAdmin);
-adminModal.addEventListener('click',e=>{if(e.target===adminModal)closeAdmin();});
-
-document.getElementById('adminLoginBtn').addEventListener('click',()=>{
- const ok=LOCAL_ADMINS.some(a=>a.u===adminUser.value.trim() && a.p===adminPass.value);
- if(!ok){loginStatus.textContent='Incorrect username or password.';return;}
- loginStatus.textContent='';
- adminLogin.style.display='none';
- adminEditor.style.display='block';
- adminPass.value='';
- adminStatus.textContent='Logged in.';
-});
-
-document.getElementById('adminLogout').addEventListener('click',()=>{
- adminEditor.style.display='none';
- adminLogin.style.display='block';
- adminUser.value=''; adminPass.value='';
- adminStatus.textContent='';
-});
-
-function splitSauce(abbr){
- const parts=abbr.split(' · Sauce: ');
- return {base:parts[0],sauce:parts.slice(1).join(' · Sauce: ')};
+async function setAdminState(){
+  const {data:{session}}=await db.auth.getSession();
+  if(!session){adminLogin.style.display='block';adminPanel.style.display='none';return;}
+  const {data,error}=await db.from('admin_users').select('user_id').eq('user_id',session.user.id).maybeSingle();
+  const isAdmin=!error && !!data;
+  adminLogin.style.display=isAdmin?'none':'block';
+  adminPanel.style.display=isAdmin?'block':'none';
+  if(!isAdmin){adminLoginMsg.textContent='This account is not authorised as an administrator.';}
 }
-function fillDish(x){
- const s=splitSauce(x.abbr||'');
- editNo.value=x.no;
- editName.value=x.name||'';
- editAbbr.value=s.base||'';
- editSauce.value=s.sauce||'';
+document.getElementById('adminLoginBtn').addEventListener('click',async()=>{
+  adminLoginMsg.textContent='Signing in…';
+  const {error}=await db.auth.signInWithPassword({email:adminEmail.value.trim(),password:adminPassword.value});
+  if(error){adminLoginMsg.textContent='Login failed: '+error.message;return;}
+  adminPassword.value='';
+  adminLoginMsg.textContent='';
+  await setAdminState();
+});
+document.getElementById('adminLogoutBtn').addEventListener('click',async()=>{await db.auth.signOut();await setAdminState();});
+
+async function loadAdminMenu(){
+  const n=Number(adminMenuNo.value);
+  adminActionMsg.textContent='';
+  if(!Number.isInteger(n)||n<1){adminLookupMsg.textContent='Enter a valid menu number.';return;}
+  adminLookupMsg.textContent='Loading…';
+  const {data,error}=await db.from('menu').select('menu_number,dish_name,abbreviation,sauce').eq('menu_number',n).maybeSingle();
+  if(error){adminLookupMsg.textContent='Error: '+error.message;return;}
+  if(!data){
+    adminDishName.value='';adminAbbr.value='';adminSauce.value='';
+    adminLookupMsg.textContent='New menu number — enter details and Save / Add.';
+    return;
+  }
+  adminDishName.value=data.dish_name||'';
+  adminAbbr.value=data.abbreviation||'';
+  adminSauce.value=data.sauce||'';
+  adminLookupMsg.textContent='Loaded: '+data.dish_name;
 }
-document.getElementById('loadDish').addEventListener('click',()=>{
- const no=Number(editNo.value);
- const x=menu.find(x=>Number(x.no)===no);
- if(!x){adminStatus.textContent='Menu number not found. Enter a name/shorthand to add it as a new dish.';return;}
- fillDish(x); adminStatus.textContent=`Loaded #${no}.`;
+document.getElementById('adminLoadBtn').addEventListener('click',loadAdminMenu);
+adminMenuNo.addEventListener('change',loadAdminMenu);
+adminMenuNo.addEventListener('keydown',e=>{if(e.key==='Enter')loadAdminMenu();});
+
+document.getElementById('adminSaveBtn').addEventListener('click',async()=>{
+  const n=Number(adminMenuNo.value), name=adminDishName.value.trim();
+  if(!Number.isInteger(n)||n<1||!name){adminActionMsg.textContent='Menu Number and Dish Name are required.';return;}
+  adminActionMsg.textContent='Saving…';
+  const {error}=await db.from('menu').upsert({
+    menu_number:n,dish_name:name,abbreviation:adminAbbr.value.trim(),sauce:adminSauce.value.trim()
+  },{onConflict:'menu_number'});
+  if(error){adminActionMsg.textContent='Save failed: '+error.message;return;}
+  adminActionMsg.textContent='Saved successfully.';
+  adminLookupMsg.textContent='Loaded: '+name;
+  await refreshMenuFromDatabase();
 });
-document.getElementById('saveDish').addEventListener('click',()=>{
- const no=Number(editNo.value);
- const name=editName.value.trim();
- const base=editAbbr.value.trim();
- const sauce=editSauce.value.trim();
- if(!Number.isInteger(no)||no<1||!name||!base){adminStatus.textContent='Menu number, dish name and shorthand are required.';return;}
- const abbr=base+(sauce?` · Sauce: ${sauce}`:'');
- const existing=menu.find(x=>Number(x.no)===no);
- if(existing){existing.name=name;existing.abbr=abbr;}
- else menu.push({no,name,abbr});
- persistMenu(); render();
- adminStatus.textContent=existing?`Updated #${no}.`:`Added #${no}.`;
+
+document.getElementById('adminDeleteBtn').addEventListener('click',async()=>{
+  const n=Number(adminMenuNo.value);
+  if(!Number.isInteger(n)||n<1){adminActionMsg.textContent='Enter a valid Menu Number.';return;}
+  if(!confirm('Delete menu #'+n+'?'))return;
+  adminActionMsg.textContent='Deleting…';
+  const {error}=await db.from('menu').delete().eq('menu_number',n);
+  if(error){adminActionMsg.textContent='Delete failed: '+error.message;return;}
+  adminDishName.value='';adminAbbr.value='';adminSauce.value='';
+  adminLookupMsg.textContent='';
+  adminActionMsg.textContent='Deleted menu #'+n+'.';
+  await refreshMenuFromDatabase();
 });
-document.getElementById('deleteDish').addEventListener('click',()=>{
- const no=Number(editNo.value);
- const x=menu.find(x=>Number(x.no)===no);
- if(!x){adminStatus.textContent='Menu number not found.';return;}
- if(!confirm(`Delete #${no} — ${x.name}?`)) return;
- menu=menu.filter(x=>Number(x.no)!==no);
- persistMenu(); render();
- editName.value='';editAbbr.value='';editSauce.value='';
- adminStatus.textContent=`Deleted #${no}.`;
-});
+db.auth.onAuthStateChange(()=>setTimeout(setAdminState,0));
+setAdminState();
 
 </script></body></html>
