@@ -24,6 +24,9 @@ section{margin:26px 0 44px} .title-row{display:flex;gap:14px;align-items:end;bor
 .admin-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px}.admin-modal.open{display:flex}.admin-backdrop{position:absolute;inset:0;background:rgba(3,13,23,.72);backdrop-filter:blur(6px)}.admin-dialog{position:relative;z-index:1;width:min(560px,100%);max-height:88vh;overflow:auto;background:#10283d;border:1px solid #31516b;border-radius:18px;padding:25px;box-shadow:0 24px 70px rgba(0,0,0,.45)}.admin-close{position:absolute;top:12px;right:14px;border:0;background:transparent;color:#b9c8d5;font-size:30px;line-height:1;cursor:pointer}.admin-dialog .title-row{padding-right:36px;margin-bottom:18px}.admin-dialog .admin-section{margin-top:0}
 @media(max-width:600px){.admin-avatar{top:12px;right:12px;width:42px;height:42px}.admin-dialog{padding:20px 16px;border-radius:15px}}
 
+
+.admin-password-box{margin-top:26px;padding-top:20px;border-top:1px solid rgba(214,177,94,.25)}
+.admin-password-box h3{margin:0 0 10px;color:#eef4f8}
 </style></head><body>
 
 <button id="adminAvatarBtn" class="admin-avatar" aria-label="Administrator login" title="Administrator">
@@ -53,7 +56,7 @@ section{margin:26px 0 44px} .title-row{display:flex;gap:14px;align-items:end;bor
   <div class="title-row"><div class="num">04</div><div><h2>Admin</h2><div class="hint">Supabase database management</div></div></div>
   <div id="adminLogin" class="gf-card">
     <h3>Administrator Login</h3>
-    <input id="adminEmail" class="search" type="email" placeholder="Admin email" autocomplete="username">
+    <input id="adminEmail" class="search" type="text" placeholder="Username" autocomplete="username">
     <input id="adminPassword" class="search" type="password" placeholder="Admin password" autocomplete="current-password" style="margin-top:10px">
     <button id="adminLoginBtn" class="admin-btn">Login</button>
     <div id="adminLoginMsg" class="result-count"></div>
@@ -77,6 +80,15 @@ section{margin:26px 0 44px} .title-row{display:flex;gap:14px;align-items:end;bor
       <button id="adminDeleteBtn" class="admin-btn danger">Delete</button>
     </div>
     <div id="adminActionMsg" class="result-count"></div>
+    <div class="admin-password-box">
+      <h3>Change Password</h3>
+      <label class="admin-label">New Password</label>
+      <input id="adminNewPassword" class="search" type="password" placeholder="New password" autocomplete="new-password">
+      <label class="admin-label">Confirm New Password</label>
+      <input id="adminConfirmPassword" class="search" type="password" placeholder="Confirm new password" autocomplete="new-password">
+      <button id="adminChangePasswordBtn" class="admin-btn secondary">Change Password</button>
+      <div id="adminPasswordMsg" class="result-count"></div>
+    </div>
   </div>
 
   </div>
@@ -211,8 +223,10 @@ async function setAdminState(){
 }
 document.getElementById('adminLoginBtn').addEventListener('click',async()=>{
   adminLoginMsg.textContent='Signing in…';
-  const {error}=await db.auth.signInWithPassword({email:adminEmail.value.trim(),password:adminPassword.value});
-  if(error){adminLoginMsg.textContent='Login failed: '+error.message;return;}
+  const username=adminEmail.value.trim().toLowerCase();
+  if(username!=='admin'){adminLoginMsg.textContent='Invalid username or password.';return;}
+  const {error}=await db.auth.signInWithPassword({email:'hhxx06@gmail.com',password:adminPassword.value});
+  if(error){adminLoginMsg.textContent='Invalid username or password.';return;}
   adminPassword.value='';
   adminLoginMsg.textContent='';
   await setAdminState();
@@ -265,6 +279,21 @@ document.getElementById('adminDeleteBtn').addEventListener('click',async()=>{
   adminActionMsg.textContent='Deleted menu #'+n+'.';
   await refreshMenuFromDatabase();
 });
+
+document.getElementById('adminChangePasswordBtn').addEventListener('click',async()=>{
+  const p=document.getElementById('adminNewPassword').value;
+  const c=document.getElementById('adminConfirmPassword').value;
+  const msg=document.getElementById('adminPasswordMsg');
+  if(p.length<8){msg.textContent='Password must be at least 8 characters.';return;}
+  if(p!==c){msg.textContent='Passwords do not match.';return;}
+  msg.textContent='Changing password…';
+  const {error}=await db.auth.updateUser({password:p});
+  if(error){msg.textContent='Password change failed: '+error.message;return;}
+  document.getElementById('adminNewPassword').value='';
+  document.getElementById('adminConfirmPassword').value='';
+  msg.textContent='Password changed successfully.';
+});
+
 db.auth.onAuthStateChange(()=>setTimeout(setAdminState,0));
 setAdminState();
 
