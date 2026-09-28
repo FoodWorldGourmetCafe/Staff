@@ -1,1 +1,24 @@
+name: Keep Supabase Active
 
+on:
+  schedule:
+    # GitHub Actions cron uses UTC.
+    # Five lightweight checks per day.
+    - cron: '17 0,5,10,15,20 * * *'
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Read one menu row
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$SUPABASE_URL"
+          test -n "$SUPABASE_ANON_KEY"
+          curl --fail --silent --show-error             --max-time 20             -H "apikey: $SUPABASE_ANON_KEY"             -H "Authorization: Bearer $SUPABASE_ANON_KEY"             "$SUPABASE_URL/rest/v1/menu?select=menu_number&limit=1"             > /dev/null
+          echo "Supabase check completed."
