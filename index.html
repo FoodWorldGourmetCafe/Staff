@@ -251,8 +251,17 @@ async function loadAdminMenu(){
   adminLookupMsg.textContent='Loaded: '+data.dish_name;
 }
 document.getElementById('adminLoadBtn').addEventListener('click',loadAdminMenu);
-adminMenuNo.addEventListener('change',loadAdminMenu);
-adminMenuNo.addEventListener('keydown',e=>{if(e.key==='Enter')loadAdminMenu();});
+let adminLoadTimer;
+adminMenuNo.addEventListener('input',()=>{
+  clearTimeout(adminLoadTimer);
+  const raw=adminMenuNo.value.trim();
+  if(!raw){
+    adminDishName.value=''; adminAbbr.value=''; adminSauce.value='';
+    adminLookupMsg.textContent=''; return;
+  }
+  adminLoadTimer=setTimeout(loadAdminMenu,300);
+});
+adminMenuNo.addEventListener('keydown',e=>{if(e.key==='Enter'){clearTimeout(adminLoadTimer);loadAdminMenu();}});
 
 document.getElementById('adminSaveBtn').addEventListener('click',async()=>{
   const n=Number(adminMenuNo.value), name=adminDishName.value.trim();
@@ -284,7 +293,7 @@ document.getElementById('adminChangePasswordBtn').addEventListener('click',async
   const p=document.getElementById('adminNewPassword').value;
   const c=document.getElementById('adminConfirmPassword').value;
   const msg=document.getElementById('adminPasswordMsg');
-  if(p.length<8){msg.textContent='Password must be at least 8 characters.';return;}
+  if(p.length<1){msg.textContent='Please enter a new password.';return;}
   if(p!==c){msg.textContent='Passwords do not match.';return;}
   msg.textContent='Changing password…';
   const {error}=await db.auth.updateUser({password:p});
