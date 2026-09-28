@@ -27,6 +27,11 @@ section{margin:26px 0 44px} .title-row{display:flex;gap:14px;align-items:end;bor
 
 .admin-password-box{margin-top:26px;padding-top:20px;border-top:1px solid rgba(214,177,94,.25)}
 .admin-password-box h3{margin:0 0 10px;color:#eef4f8}
+
+.admin-textarea{min-height:92px;resize:vertical;font-family:inherit}
+.admin-search-matches{display:grid;gap:6px;margin-top:8px}
+.admin-match{width:100%;text-align:left;border:1px solid #31516b;background:#0b2238;color:#eef4f8;border-radius:9px;padding:9px 11px;cursor:pointer}
+.admin-match:hover{border-color:var(--gold)}
 </style></head><body>
 
 <button id="adminAvatarBtn" class="admin-avatar" aria-label="Administrator login" title="Administrator">
@@ -63,9 +68,9 @@ section{margin:26px 0 44px} .title-row{display:flex;gap:14px;align-items:end;bor
   </div>
   <div id="adminPanel" class="gf-card" style="display:none">
     <div class="admin-top"><h3>Menu Editor</h3><button id="adminLogoutBtn" class="admin-btn secondary">Logout</button></div>
-    <label class="admin-label">Menu Number</label>
+    <label class="admin-label">Menu Number / Dish Name</label>
     <div class="admin-number-row">
-      <input id="adminMenuNo" class="search" inputmode="numeric" placeholder="Enter menu number">
+      <input id="adminMenuNo" class="search" placeholder="Enter menu number or dish name, e.g. 57 / Combination Pad Thai" autocomplete="off">
       <button id="adminLoadBtn" class="admin-btn">Load</button>
     </div>
     <div id="adminLookupMsg" class="result-count"></div>
@@ -75,6 +80,9 @@ section{margin:26px 0 44px} .title-row{display:flex;gap:14px;align-items:end;bor
     <input id="adminAbbr" class="search" placeholder="Staff shorthand">
     <label class="admin-label">Sauce</label>
     <input id="adminSauce" class="search" placeholder="Sauce">
+    <label class="admin-label">Ingredients / Veg</label>
+    <textarea id="adminIngredients" class="search admin-textarea" placeholder="Ingredients / Veg, e.g. Onion · capsicum · beansprout · carrot; combination meat; peanuts"></textarea>
+    <div id="adminSearchMatches" class="admin-search-matches"></div>
     <div class="admin-actions">
       <button id="adminSaveBtn" class="admin-btn">Save / Add</button>
       <button id="adminDeleteBtn" class="admin-btn danger">Delete</button>
@@ -107,6 +115,7 @@ function render(){
  if (!s) { results.innerHTML = ''; return; }
  if (!s) { results.innerHTML = ''; return; }
  function ingredientFor(x){
+   if(x.ingredients && x.ingredients.trim()) return x.ingredients.trim();
    const n=x.name.toLowerCase();
    const rules=[
     ['kung pao','Onion · dry chilli · peanuts · carrot · capsicum'],
@@ -190,10 +199,10 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, 
 function dbRowToMenu(x){
   const sauce=(x.sauce||'').trim();
   const base=(x.abbreviation||'').trim();
-  return {no:x.menu_number,name:x.dish_name,abbr:base+(sauce?' · Sauce: '+sauce:'')};
+  return {no:x.menu_number,name:x.dish_name,abbr:base+(sauce?' · Sauce: '+sauce:''),ingredients:(x.ingredients||'').trim()};
 }
 async function refreshMenuFromDatabase(){
-  const {data,error}=await db.from('menu').select('menu_number,dish_name,abbreviation,sauce').order('menu_number');
+  const {data,error}=await db.from('menu').select('menu_number,dish_name,abbreviation,sauce,ingredients').order('menu_number');
   if(error){ console.warn('Database unavailable; using offline menu.',error); return false; }
   if(data && data.length){ menu=data.map(dbRowToMenu); if(q.value.trim()) render(); return true; }
   return false;
@@ -209,6 +218,8 @@ const adminMenuNo=document.getElementById('adminMenuNo');
 const adminDishName=document.getElementById('adminDishName');
 const adminAbbr=document.getElementById('adminAbbr');
 const adminSauce=document.getElementById('adminSauce');
+const adminIngredients=document.getElementById('adminIngredients');
+const adminSearchMatches=document.getElementById('adminSearchMatches');
 const adminLookupMsg=document.getElementById('adminLookupMsg');
 const adminActionMsg=document.getElementById('adminActionMsg');
 
@@ -233,22 +244,48 @@ document.getElementById('adminLoginBtn').addEventListener('click',async()=>{
 });
 document.getElementById('adminLogoutBtn').addEventListener('click',async()=>{await db.auth.signOut();await setAdminState();});
 
-async function loadAdminMenu(){
-  const n=Number(adminMenuNo.value);
-  adminActionMsg.textContent='';
-  if(!Number.isInteger(n)||n<1){adminLookupMsg.textContent='Enter a valid menu number.';return;}
-  adminLookupMsg.textContent='Loading…';
-  const {data,error}=await db.from('menu').select('menu_number,dish_name,abbreviation,sauce').eq('menu_number',n).maybeSingle();
-  if(error){adminLookupMsg.textContent='Error: '+error.message;return;}
-  if(!data){
-    adminDishName.value='';adminAbbr.value='';adminSauce.value='';
-    adminLookupMsg.textContent='New menu number — enter details and Save / Add.';
-    return;
-  }
+function fillAdminFields(data){
+  adminMenuNo.value=data.menu_number;
   adminDishName.value=data.dish_name||'';
   adminAbbr.value=data.abbreviation||'';
   adminSauce.value=data.sauce||'';
-  adminLookupMsg.textContent='Loaded: '+data.dish_name;
+  adminIngredients.value=data.ingredients||'';
+  adminLookupMsg.textContent='Loaded: #'+data.menu_number+' '+data.dish_name;
+  adminSearchMatches.innerHTML='';
+}
+async function loadAdminMenu(){
+  const raw=adminMenuNo.value.trim();
+  adminActionMsg.textContent='';
+  adminSearchMatches.innerHTML='';
+  if(!raw){adminLookupMsg.textContent='';return;}
+  adminLookupMsg.textContent='Searching…';
+
+  let query=db.from('menu').select('menu_number,dish_name,abbreviation,sauce,ingredients');
+  if(/^\d+$/.test(raw)){
+    const {data,error}=await query.eq('menu_number',Number(raw)).maybeSingle();
+    if(error){adminLookupMsg.textContent='Error: '+error.message;return;}
+    if(!data){
+      adminDishName.value='';adminAbbr.value='';adminSauce.value='';adminIngredients.value='';adminIngredients.value='';
+      adminLookupMsg.textContent='New menu number — enter details and Save / Add.';
+      return;
+    }
+    fillAdminFields(data);
+    return;
+  }
+
+  const {data,error}=await query.ilike('dish_name','%'+raw+'%').order('menu_number').limit(8);
+  if(error){adminLookupMsg.textContent='Error: '+error.message;return;}
+  if(!data || !data.length){adminLookupMsg.textContent='No matching dish name.';return;}
+  if(data.length===1){fillAdminFields(data[0]);return;}
+
+  adminLookupMsg.textContent=data.length+' matches — choose a dish:';
+  data.forEach(item=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='admin-match';
+    b.textContent='#'+item.menu_number+' · '+item.dish_name;
+    b.addEventListener('click',()=>fillAdminFields(item));
+    adminSearchMatches.appendChild(b);
+  });
 }
 document.getElementById('adminLoadBtn').addEventListener('click',loadAdminMenu);
 let adminLoadTimer;
@@ -265,10 +302,10 @@ adminMenuNo.addEventListener('keydown',e=>{if(e.key==='Enter'){clearTimeout(admi
 
 document.getElementById('adminSaveBtn').addEventListener('click',async()=>{
   const n=Number(adminMenuNo.value), name=adminDishName.value.trim();
-  if(!Number.isInteger(n)||n<1||!name){adminActionMsg.textContent='Menu Number and Dish Name are required.';return;}
+  if(!Number.isInteger(n)||n<1||!name){adminActionMsg.textContent='Select/load a Menu Number first, and Dish Name is required.';return;}
   adminActionMsg.textContent='Saving…';
   const {error}=await db.from('menu').upsert({
-    menu_number:n,dish_name:name,abbreviation:adminAbbr.value.trim(),sauce:adminSauce.value.trim()
+    menu_number:n,dish_name:name,abbreviation:adminAbbr.value.trim(),sauce:adminSauce.value.trim(),ingredients:adminIngredients.value.trim()
   },{onConflict:'menu_number'});
   if(error){adminActionMsg.textContent='Save failed: '+error.message;return;}
   adminActionMsg.textContent='Saved successfully.';
@@ -283,7 +320,7 @@ document.getElementById('adminDeleteBtn').addEventListener('click',async()=>{
   adminActionMsg.textContent='Deleting…';
   const {error}=await db.from('menu').delete().eq('menu_number',n);
   if(error){adminActionMsg.textContent='Delete failed: '+error.message;return;}
-  adminDishName.value='';adminAbbr.value='';adminSauce.value='';
+  adminDishName.value='';adminAbbr.value='';adminSauce.value='';adminIngredients.value='';
   adminLookupMsg.textContent='';
   adminActionMsg.textContent='Deleted menu #'+n+'.';
   await refreshMenuFromDatabase();
