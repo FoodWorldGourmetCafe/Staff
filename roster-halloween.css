@@ -1,0 +1,35 @@
+/* Embedded Roster presentation only; scheduling scripts remain unchanged. */
+:root{color-scheme:light;--bg:transparent;--panel:#fffaf4;--line:#efd5bd;--gold:#d95f00;--text:#241811;--muted:#6e5a50;--red:#dc3648}
+body{background:transparent;color:var(--text)}
+body.roster-overview main,main{background:linear-gradient(125deg,#fffaf5,#fff5e8);border:1px solid #ffb576;border-radius:19px;box-shadow:0 0 0 2px #733b1e33,0 4px 18px #ff6b002b;position:relative;isolation:isolate}
+main:before{content:'';position:absolute;right:16px;top:5px;width:190px;height:100px;background:url('assets/reference.png') -890px -115px/1672px 941px no-repeat;opacity:.3;z-index:-1;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 35%);-webkit-mask-image:linear-gradient(90deg,transparent,#000 35%)}
+button{background:#fffaf5;border-color:#f0cbaa;color:#65371a}button:hover{background:#ffebd2;border-color:#ff9f50}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline-color:#ff7900}
+.gold,button[aria-pressed='true']{background:linear-gradient(120deg,#ff8f17,#eb6800);color:#fff;border-color:#ff9f50}.gold:hover{background:#e96900}
+.control-panel{background:linear-gradient(110deg,#fff4e4,#fffaf5);border:1px solid #ffd0a7;border-radius:13px}.date-button .icon,.arrow{color:#e96b00}.key{border-color:#efd5bd}.shift-key b{color:#c45600}.key-note,.shift-key,.meta,.help{color:#6e5a50}.status{color:#bb5300}#status{background:#ffead0;color:#914600;border:1px solid #ffd0a7}
+body.roster-overview .table-shell,.table-shell{background:#fffaf4;border:1px solid #eeb885;border-radius:12px;box-shadow:0 4px 15px #ff790012}.table-scroll{scrollbar-color:#eab782 #fff5e8}
+body.roster-overview .table-scroll table{background:#fffaf4}
+body.roster-overview .table-scroll th,body.roster-overview .table-scroll td,th,td{border-bottom-color:#efdccb;border-right-color:#efdccb}
+body.roster-overview .table-scroll thead tr:first-child th,thead th,thead .staff-col{background:#f9dfbf;color:#4a2814}
+thead tr:first-child th:nth-child(3),thead tr:first-child th:nth-child(5),thead tr:first-child th:nth-child(7){background:#ffe9ce}
+body.roster-overview .table-scroll thead tr:nth-child(2) th,thead tr:nth-child(2) th{background:#fff0df;color:#82502a}
+.day-date,body.roster-overview .table-scroll .day-date{color:#87502a}
+tbody td{background:#fffaf5}tbody tr:nth-child(even) td:not(.closed){background:#fff4e7}tbody tr:nth-child(even) th{background:#fff4e7}
+body.roster-overview .table-scroll .staff-col,.staff-col{background:#fff0de;color:#342012;border-right-color:#e3ac76}
+body.roster-overview .table-scroll .total-col,.total-col{background:#ffead2;color:#a14d09}
+body.roster-overview .table-scroll .day-end,.day-end{border-right-color:#e3ac76}
+body.roster-overview .table-scroll td.closed,.closed{background:#eee5dc;color:#94867b}.closed-label{color:#806650}
+body.roster-overview .table-scroll .cell,.cell{color:#482914}.cell:hover{background:#ffe2bd!important}.cell.unavailable,body.roster-overview .table-scroll .cell.unavailable{color:var(--red)}
+.red-line,body.roster-overview .table-scroll .red-line{background:#dc3648}
+body.roster-overview .table-scroll tbody tr.roster-hover-row>td,body.roster-overview .table-scroll tbody tr.roster-hover-row>.staff-col{background:#fff0d9}
+body.roster-overview .table-scroll .roster-hover-day{background:#ffe6c7!important}
+body.roster-overview .table-scroll tbody tr.roster-hover-row>td.roster-hover-day{background:#ffd2a2!important}
+body.roster-overview #table-head .roster-hover-day{background:#ffce98!important}
+body.roster-overview .table-scroll tbody tr.staff-row-selected>.staff-col,body.roster-overview .table-scroll tbody tr.staff-row-selected>.total-col{background:#ffd3a0!important;color:#653006;box-shadow:inset 0 2px #f18a2d,inset 0 -2px #f18a2d}
+body.roster-overview .table-scroll tbody tr.staff-full-row-selected>td{background:#ffe2bd!important;box-shadow:inset 0 2px #f18a2d,inset 0 -2px #f18a2d}
+body.roster-overview .table-scroll thead th.today-header{background:#ffc78c!important;color:#69320a;box-shadow:inset 0 -2px #f07813}.today-header .today-badge{background:#db6706;color:#fff}
+.under-table{background:#fff0df;border-color:#efd5bd;color:#6e5a50}.under-table strong{color:#b54d00}.owner{background:linear-gradient(135deg,#fffaf5,#fff0de);border-color:#f0cbaa}.owner-icon{border-color:#ffb06a;color:#e96b00}.footer,.mobile-hint{color:#8b7061}
+.date-pop,dialog{background:#fffaf4;color:#241811;border-color:#ffc18a;box-shadow:0 12px 40px #51270533}dialog h2{color:#9c4500}dialog p,dialog small{color:#6e5a50}dialog::backdrop{background:#1a0b07b0}
+input,select{background:#fff;color:#342012;border-color:#efcbaa}.choice[aria-pressed=true]{background:#ffead0;color:#653006;border-color:#ffae61}.choice[aria-pressed=true] strong,.choice strong{color:#ba5200}.choice small{color:#6e5a50}
+#toast{background:#ffead0;color:#713604;border-color:#ffb574}#drop-hint{background:#fff5e8;color:#6f3611;border-color:#dc3648}.staff-pick{color:#b95500;border-color:#e98a35}.staff-pick[aria-pressed='true']{background:#ffe4bf;color:#713604}
+.cell.stroke-preview{background:#f8d8d888!important}.cell.drop-target{background:#ffd4c788!important;outline-color:#dc3648!important}#storage-warning{background:#fff0e3;color:#a04324;border-color:#e5a57d}
+@media(max-width:600px){body.roster-overview main{border-radius:15px}.control-panel{border-radius:10px}main:before{opacity:.2}}
