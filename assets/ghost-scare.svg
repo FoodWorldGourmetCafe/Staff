@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
+<defs><radialGradient id="skin"><stop stop-color="#f4f0e5"/><stop offset=".55" stop-color="#b3b5ad"/><stop offset="1" stop-color="#363e40"/></radialGradient><radialGradient id="hole"><stop stop-color="#000"/><stop offset=".72" stop-color="#050609"/><stop offset="1" stop-color="#4d5351"/></radialGradient><filter id="shadow"><feGaussianBlur stdDeviation="12"/></filter></defs>
+<path d="M300 25C170 20 98 115 110 265L70 370 0 455 110 424 70 610 180 570 155 715 252 656 310 758 363 646 445 709 426 558 543 603 496 445 600 475 516 340 489 236C495 99 409 24 300 25Z" fill="url(#skin)"/>
+<path d="M125 230Q170 115 259 218Q221 318 144 304Z M475 230Q430 115 341 218Q379 318 456 304Z" fill="#000" filter="url(#shadow)"/>
+<path d="M135 228Q175 174 257 216Q218 291 155 280Z M465 228Q425 174 343 216Q382 291 445 280Z" fill="url(#hole)"/>
+<path d="M279 293L302 268 326 302 300 317Z" fill="#171c1c"/>
+<path d="M299 334C211 326 206 439 239 543Q302 636 363 535C392 420 379 336 299 334Z" fill="url(#hole)" stroke="#555e59" stroke-width="9"/>
+<path d="M144 310L171 390 163 465 M221 285L209 354 M453 310L423 414 435 472 M375 286L389 354" fill="none" stroke="#4b5450" stroke-width="12" opacity=".55"/>
+<path d="M109 186Q153 97 257 159 M491 186Q447 97 343 159" fill="none" stroke="#6b736d" stroke-width="19" opacity=".6"/>
+</svg>
