@@ -308,7 +308,185 @@ body.halloween-shake{animation:halloween-shake .35s linear}
 @keyframes swarm-fade{0%,100%{opacity:0}8%,86%{opacity:1}}
 @keyframes swarm-title{0%,8%{opacity:0;transform:scale(.5)}20%,76%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.15)}}
 @media(prefers-reduced-motion:reduce){.bat-swarm,.bat-swarm h2{animation:none}.swarm-bat{display:none}}
-</style></head><body>
+</style><style id="halloween-name-effects">
+
+.halloween-name-form{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 4px}
+.halloween-name-form label{flex-basis:100%;font-size:14px;color:#62585b}
+.halloween-name-form input{flex:1;min-width:120px;padding:12px;border:1px solid #edc09c;border-radius:10px;font:inherit;background:#fffaf5;color:#24130e}
+.halloween-name-form button{border:0;border-radius:10px;background:#e96913;color:white;padding:12px 18px;font:600 16px Georgia,serif;cursor:pointer}
+.halloween-name-status{font-size:14px;color:#62585b;min-height:20px;margin:6px 0}
+.name-fx{position:fixed;inset:0;z-index:2300;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse,#26183bd9,#080617ef);animation:party-fade 5.5s both}
+.name-fx h2{position:absolute;z-index:3;top:35%;width:100%;text-align:center;font:900 clamp(42px,8vw,110px)/1.2 Georgia,serif;color:#fff1b8;text-shadow:0 0 30px #ff9700}
+.flying-ghost{position:absolute;left:-35vw;top:var(--top);width:var(--size);height:var(--size);background:url('assets/halloween-black-hat-ghost.png') center/contain no-repeat;filter:drop-shadow(0 0 20px #d9d0ff);animation:ghost-cross var(--duration) ease-in-out var(--delay) both}
+.lightning-bolt{position:absolute;inset:0;color:#dad4ff;filter:drop-shadow(0 0 18px #929cff);opacity:0;animation:lightning-strike 1.7s ease-out var(--delay) both}
+.aud-note{position:absolute;top:-150px;left:var(--left);padding:12px 18px;width:120px;height:58px;border:2px solid #fff4c4;border-radius:5px;background:linear-gradient(120deg,#e4ba5e,#fff1ad,#ac7935);box-shadow:0 4px 18px #0005;color:#563718;font:bold 24px Georgia,serif;text-align:center;animation:aud-rain var(--duration) linear var(--delay) both}
+.aud-note small{display:block;font:10px Arial,sans-serif;letter-spacing:1px}
+@keyframes ghost-cross{0%{opacity:0;transform:translateX(0) translateY(70px) rotate(-15deg)}15%{opacity:1}55%{transform:translateX(75vw) translateY(-70px) rotate(10deg)}85%{opacity:1}100%{opacity:0;transform:translateX(145vw) translateY(40px) rotate(-8deg)}}
+@keyframes lightning-strike{0%,100%{opacity:0}12%{opacity:1}30%{opacity:.2}48%{opacity:.85}75%{opacity:0}}
+@keyframes aud-rain{0%{opacity:0;transform:translateY(0) rotate(-25deg)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translate(var(--drift),125vh) rotate(var(--spin))}}
+@media(max-width:600px){.aud-note{width:90px;height:46px;font-size:19px}}
+@media(prefers-reduced-motion:reduce){.flying-ghost,.aud-note{animation:none;opacity:.8;left:var(--left,30%);top:var(--top,60%)}.lightning-bolt{animation:none;opacity:.35}.name-fx{animation:none}}
+</style><style id="halloween-drag-style">
+.halloween-name-dialog{border:1px solid #f8b05a;border-radius:20px;padding:30px;width:min(420px,calc(100vw - 40px));box-sizing:border-box;background:#fff7ec;color:#24130e;box-shadow:0 20px 100px #0008}
+.halloween-name-dialog::backdrop{background:#170b23b8;backdrop-filter:blur(4px)}
+.halloween-dialog-close{position:absolute;right:10px;top:6px;border:0;background:none;font:28px Arial;color:#694c38;cursor:pointer}
+.halloween-name-dialog .halloween-name-form{margin-top:12px}
+.candy-drag-copy{position:fixed;z-index:2400;pointer-events:none;background:url('assets/halloween-candy-bucket-orange.png') center/contain no-repeat;filter:drop-shadow(0 8px 14px #ff860088)}
+#sauces .num{cursor:grab!important}#sauces .num:focus-visible{outline:3px solid #f07815;outline-offset:5px;border-radius:12px}
+#sauces .num.candy-dragging{opacity:.25;cursor:grabbing!important}
+#sauces .reference-art.candy-drop-ready{filter:drop-shadow(0 0 15px #ffad43);transform:scale(1.15);transition:transform .15s}
+</style><style id="halloween-discreet-input">
+.halloween-name-dialog .halloween-name-form button[hidden]{display:none}
+.halloween-name-dialog .halloween-name-form label{font:600 25px/1.3 Georgia,serif;text-align:center;color:#694c38;margin-bottom:8px}
+.halloween-name-dialog .halloween-name-form input{min-width:0;width:100%;text-align:center}
+.halloween-name-dialog{width:min(340px,calc(100vw - 40px));padding:30px 26px 20px}
+.halloween-name-dialog .halloween-name-status:empty{display:none}
+</style><style id="ghost-question-dialog">
+.halloween-name-dialog{overflow:visible;border:1px solid #d9c7ef;background:radial-gradient(ellipse at top,#fffaf4,#f2e9fa);padding:24px 26px 25px;box-shadow:0 16px 90px #11072199}
+.question-ghost{display:block;width:112px;height:124px;object-fit:contain;margin:0 auto 2px;filter:drop-shadow(0 5px 15px #ac96c84d)}
+.halloween-name-dialog .halloween-name-form{margin:0;gap:22px}
+.halloween-name-dialog .halloween-name-form label{position:relative;box-sizing:border-box;margin:0;border:1px solid #d9c7ef;border-radius:20px;padding:13px 8px;background:#fffdf9;color:#483157;font:600 27px/1.3 Georgia,serif}
+.halloween-name-dialog .halloween-name-form label:before{content:'';position:absolute;top:-8px;left:calc(50% - 7px);width:14px;height:14px;background:#fffdf9;border-top:1px solid #d9c7ef;border-left:1px solid #d9c7ef;transform:rotate(45deg)}
+.halloween-name-dialog .halloween-name-form input{flex-basis:100%;border:0;border-bottom:2px solid #bba0ce;border-radius:0;background:transparent;color:#483157;padding:8px 4px;font-size:18px;outline-offset:5px}
+.halloween-name-dialog .halloween-name-status{color:#655071;margin-top:16px}
+.halloween-name-dialog .halloween-dialog-close{color:#8b719a}
+@media(max-height:500px){.question-ghost{width:70px;height:74px}.halloween-name-dialog{padding:16px 24px}.halloween-name-dialog .halloween-name-form{gap:12px}}
+</style><style id="original-ghost-question">
+.question-ghost{width:120px;height:124px;background:url('assets/reference.png') -1840px -694px/3344px 1882px no-repeat;filter:none;border-radius:35%;margin:0 auto 8px}
+.halloween-name-dialog{background:#fff8ef;border-color:#ecd6bd}
+.halloween-name-dialog .halloween-name-form label{color:#72523c;border-color:#ecd6bd}
+.halloween-name-dialog .halloween-name-form label:before{border-color:#ecd6bd}
+@media(max-height:500px){.question-ghost{width:72px;height:75px;background-size:2006.4px 1129.2px;background-position:-1104px -416.4px}}
+</style><style id="black-hat-question-ghost">.question-ghost{width:120px;height:132px;background:url("assets/halloween-black-hat-ghost.png") center/contain no-repeat;border-radius:0;filter:drop-shadow(0 4px 8px #82634825)}@media(max-height:500px){.question-ghost{width:72px;height:80px;background-size:contain;background-position:center}}</style><style id="steve-collect-tips">
+.name-fx.tips-collect{pointer-events:auto;animation:party-fade 14s both;touch-action:manipulation}
+.tips-mascot{position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);width:220px;pointer-events:none;z-index:2;display:flex;flex-direction:column;align-items:center}
+.tips-mascot img{width:180px;height:200px;object-fit:contain;filter:drop-shadow(0 0 22px #ffe4a066)}
+.tips-mascot h2{white-space:nowrap;position:relative;top:auto;width:auto;margin:-46px 0 0;padding:13px 20px;border:3px solid #e6b94e;border-radius:10px;background:#fff0b2;color:#624219;font:bold 30px/1.2 Georgia,serif;text-shadow:none;box-shadow:0 6px 20px #0005;transform:rotate(-5deg)}
+.tips-score,.tips-hint{position:absolute;z-index:4;left:0;width:100%;text-align:center;color:#fff1b8;pointer-events:none;font:600 24px/1.3 Georgia,serif;margin:0}
+.tips-score{top:18px}.tips-hint{bottom:22px;font:16px Arial,sans-serif}
+.tips-close{position:absolute;right:12px;top:10px;z-index:5;border:1px solid #ffffff80;background:#211329a6;color:#fff;width:44px;height:44px;border-radius:50%;font:30px Arial;cursor:pointer}
+.tips-collect .aud-note{z-index:3;box-sizing:content-box;cursor:pointer;touch-action:manipulation;font:bold 24px Georgia,serif;transition:opacity .2s,filter .2s}
+.tips-collect .aud-note:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.tips-collect .aud-note.tip-collected{opacity:0!important;filter:brightness(2);pointer-events:none}
+@media(max-width:600px){.tips-mascot{width:180px}.tips-mascot img{width:150px;height:170px}.tips-mascot h2{font-size:25px;padding:12px 15px}.tips-collect .aud-note{width:80px;height:42px;padding:10px 12px;font-size:20px}.tips-score{font-size:20px;top:22px}.tips-hint{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.name-fx.tips-collect{animation:none}.tips-collect .aud-note{animation:none;top:var(--top);left:var(--left)}}
+</style><style id="stronger-ghost-scare">
+.halloween-party.ghost-party{animation:party-fade 6s both;background:radial-gradient(ellipse,#081416,#000 75%)}
+.ghost-party h2{animation:haunted-warning 6s both;font-size:clamp(38px,7vw,80px);color:#c9d8d7}
+.ghost-party .party-ghost{animation:haunted-approach 6s both;filter:brightness(.6) drop-shadow(0 0 24px #839f99)}
+.ghost-party .ghost-final{animation:haunted-lunge 6s both;z-index:3}
+.ghost-party .ghost-final:before{width:110vw;height:120vh;filter:contrast(1.3) drop-shadow(0 0 24px #aac2b4)}
+.scare-shadow{position:absolute;inset:0;background:radial-gradient(ellipse,transparent 15%,#000 75%);animation:haunted-darkness 6s both;z-index:2}
+.scare-mute,.scare-close{position:absolute;z-index:5;top:16px;pointer-events:auto;background:#171e20cc;border:1px solid #bbc9c780;color:#e6efed;border-radius:8px;padding:10px 15px;font:14px Arial;cursor:pointer;min-height:44px}
+.scare-mute{right:70px}.scare-close{right:16px;font-size:22px}
+@keyframes haunted-warning{0%{opacity:0}10%,24%{opacity:1}36%,100%{opacity:0}}
+@keyframes haunted-approach{0%{opacity:0;transform:scale(.15) translateY(30vh)}12%{opacity:.45}30%{opacity:.8;transform:scale(.8) translateY(3vh)}45%{opacity:.5;transform:scale(1.2)}49%,100%{opacity:0}}
+@keyframes haunted-darkness{0%,35%{opacity:.35}48%{opacity:1}51%,100%{opacity:0}}
+@keyframes haunted-lunge{0%,50%{opacity:0;transform:scale(.03)}51%{opacity:1;transform:scale(1.9)}54%{transform:scale(1.5)}58%{transform:scale(1.7)}64%,83%{opacity:1;transform:scale(1.6)}100%{opacity:0;transform:scale(1.85)}}
+@media(prefers-reduced-motion:reduce){.halloween-party.ghost-party,.ghost-party h2{animation:none}.ghost-party .party-ghost,.ghost-party .ghost-final,.scare-shadow{display:none}}
+</style><style id="center-scare-face">.ghost-party .ghost-final{display:block;transform-origin:50% 50%}.ghost-party .ghost-final:before{position:absolute;inset:0;width:100%;height:100%;background-position:center;background-size:contain}.ghost-party .ghost-final:after{left:0;right:0;text-align:center}</style><style id="mobile-header-bat">@media(max-width:600px){#todayDate:before{display:block!important;width:44px;height:44px;background-size:30px 23px;background-position:center;cursor:pointer}#todayDate{min-height:44px;gap:4px;white-space:nowrap;touch-action:manipulation}.header-tools{flex-shrink:0}.hub-header{flex-wrap:wrap}.header-tools .admin-avatar{min-width:44px;min-height:44px}}</style><style id="rex-lisa-magic">
+.personal-magic{animation:party-fade 8s both;background:radial-gradient(ellipse,#392047ee,#090612fa)}
+.personal-magic h2{top:12%;margin:0;padding:0 18px;box-sizing:border-box;font-size:clamp(26px,5vw,60px);color:#ffe4ea;text-shadow:0 0 25px #c9628d}
+.personal-magic .tips-close{pointer-events:auto}
+.personal-magic-scene{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:min(380px,85vw);height:330px}
+.rex-name{position:absolute;inset:0;display:grid;place-items:center;color:#ffd7e4;font:italic bold 68px Georgia,serif;text-shadow:0 0 20px #ff72ac,0 0 60px #a447bb}
+.admiring-ghost{position:absolute;left:calc(50% - 42px);top:calc(50% - 52px);width:84px;height:104px;object-fit:contain;transform:rotate(var(--angle)) translateY(-125px) rotate(calc(-1 * var(--angle)));animation:adore-bob 1.8s ease-in-out var(--delay) infinite alternate;filter:drop-shadow(0 0 15px #f2b1d988)}
+.adoring-heart{position:absolute;left:var(--left);bottom:-50px;font-size:var(--size);color:#ffaccd;text-shadow:0 0 15px #df56a5;animation:heart-rise 5.5s ease-out var(--delay) both}
+.lisa-magic{background:radial-gradient(ellipse at 50% 70%,#153929f5,#08081cf7)}
+.lisa-magic h2{color:#d7ffb9;text-shadow:0 0 25px #59c953}
+.lisa-cauldron{position:absolute;bottom:0;left:calc(50% - 105px);width:210px;height:250px;background:url('assets/reference.png') -375px -975px/5016px 2823px no-repeat;clip-path:polygon(20% 14%,28% 12%,36% 17%,43% 12%,52% 17%,66% 7%,82% 3%,92% 8%,76% 37%,91% 45%,96% 61%,91% 80%,82% 88%,91% 98%,77% 100%,71% 92%,28% 92%,22% 100%,8% 98%,15% 87%,7% 77%,3% 59%,9% 44%,23% 36%,16% 25%);filter:drop-shadow(0 0 20px #6cff8380)}
+.lisa-helper{position:absolute;right:-4px;bottom:120px;width:100px;height:140px;object-fit:contain;transform:rotate(12deg);filter:drop-shadow(0 0 15px #9effcf55)}
+.potion-bubble{position:absolute;bottom:170px;left:var(--left);width:var(--size);height:var(--size);border-radius:50%;background:radial-gradient(circle at 30% 25%,#ecffcb,#66e378 60%,#177d46);box-shadow:0 0 12px #8dffa4;animation:potion-rise 3s ease-out var(--delay) infinite;z-index:2}
+.potion-smoke{position:absolute;bottom:175px;left:calc(50% - 35px);width:70px;height:70px;border-radius:50%;background:#91f5a8;filter:blur(22px);animation:potion-smoke-rise 3.5s ease-out var(--delay) infinite;opacity:0}
+.potion-caption{position:absolute;bottom:8%;width:100%;text-align:center;color:#ceefbb;font:italic 18px Georgia,serif}
+@keyframes adore-bob{to{translate:0 -12px}}
+@keyframes heart-rise{0%{opacity:0;transform:translateY(0) rotate(-10deg)}15%{opacity:1}100%{opacity:0;transform:translateY(-110vh) rotate(20deg)}}
+@keyframes potion-rise{0%{opacity:0;transform:translate(0,0) scale(.3)}15%{opacity:.9}100%{opacity:0;transform:translate(var(--drift),-220px) scale(1.3)}}
+@keyframes potion-smoke-rise{0%{opacity:0;transform:scale(.5)}30%{opacity:.35}100%{opacity:0;transform:translate(var(--drift),-200px) scale(2.5)}}
+@media(max-height:500px){.personal-magic-scene{scale:.65;top:58%;transform-origin:top left}.personal-magic h2{top:9%;font-size:24px}.potion-caption{bottom:3%;font-size:14px}}
+@media(prefers-reduced-motion:reduce){.personal-magic,.admiring-ghost,.adoring-heart,.potion-bubble,.potion-smoke{animation:none}.potion-bubble{opacity:.8}.adoring-heart{bottom:20%;opacity:.7}}
+</style><style id="potion-blend">.lisa-magic .personal-magic-scene{isolation:isolate}.lisa-magic .personal-magic-scene:before{content:"";position:absolute;inset:45px 20px -10px;background:radial-gradient(ellipse,#789873,#34543c 48%,transparent 73%);filter:blur(15px)}.lisa-cauldron{mix-blend-mode:multiply;clip-path:inset(0 round 30px);filter:none}.lisa-magic{animation:none}.rex-magic{animation:none}</style><style id="lisa-wicked-witch">
+.lisa-magic{background:radial-gradient(ellipse at 50% 65%,#362243f5,#090516fa)}
+.lisa-magic h2{color:#d8ff8c;text-shadow:0 0 22px #84ba21}
+.lisa-helper.wicked-witch{right:-5px;bottom:112px;width:142px;height:160px;transform:none;filter:drop-shadow(0 0 16px #b68be044);z-index:3}
+.witch-face{display:block;font-size:108px;line-height:1.2;animation:witch-cackle .7s ease-in-out infinite alternate}
+.witch-laugh{position:absolute;top:-18px;left:-10px;white-space:nowrap;transform:rotate(8deg);color:#e4ffa9;font:bold italic 18px Georgia,serif;text-shadow:0 0 8px #a658b8;animation:witch-cackle .7s ease-in-out infinite alternate}
+.witch-wand{position:absolute;left:-22px;bottom:8px;font-size:53px;transform-origin:75% 80%;animation:witch-stir 1.5s ease-in-out infinite}
+.wicked-ingredient{position:absolute;left:calc(50% - 16px);bottom:175px;font-size:30px;color:#d9ff97;text-shadow:0 0 16px #b9ff54;z-index:4;animation:wicked-pop 3s ease-out var(--delay) both;opacity:0}
+.lisa-magic .potion-caption{box-sizing:border-box;padding:0 22px;font-size:18px;color:#e7cbfc}
+.lisa-magic .potion-bubble:nth-child(3n){background:radial-gradient(circle at 30% 25%,#ffdffc,#c276e9 60%,#512878);box-shadow:0 0 14px #cd76ec}
+@keyframes witch-cackle{from{translate:0 0;rotate:-3deg}to{translate:0 -5px;rotate:3deg}}
+@keyframes witch-stir{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(30deg) translate(-12px,6px)}}
+@keyframes wicked-pop{0%{opacity:0;transform:scale(.2)}20%{opacity:1}70%{opacity:1;transform:translate(var(--drift),-130px) rotate(35deg) scale(1.15)}100%{opacity:0;transform:translate(var(--drift),-210px) rotate(-25deg) scale(.5)}}
+@media(max-width:400px){.lisa-helper.wicked-witch{right:0;width:116px}.witch-face{font-size:90px}.witch-laugh{font-size:15px}.lisa-magic .potion-caption{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.witch-face,.witch-laugh,.witch-wand,.wicked-ingredient{animation:none}.wicked-ingredient{opacity:.8}}
+</style><style id="lisa-unified-magic">
+.lisa-cauldron{display:none}
+.lisa-magic .personal-magic-scene:before{inset:10px;background:radial-gradient(ellipse,#69529666,transparent 70%);filter:blur(25px)}
+.lisa-helper.wicked-witch{right:auto;left:calc(50% - 90px);bottom:75px;width:180px;height:200px}
+.wicked-witch .witch-face{width:180px;height:200px;object-fit:contain;filter:drop-shadow(0 0 20px #ae82ff55)}
+.witch-laugh{left:24px;top:-10px;font-size:20px}
+.lisa-magic .potion-bubble{bottom:90px;background:radial-gradient(circle at 30% 25%,#efffdcaa,#98f48b55 60%,#61aeaa22);border:1px solid #c9ffaf80;box-shadow:0 0 12px #98ffa744}
+.lisa-magic .potion-bubble:nth-child(3n){background:radial-gradient(circle at 30% 25%,#ffdffbaa,#b384ef55 60%,#813d9922);box-shadow:0 0 12px #d8a2ff44}
+.lisa-magic .potion-smoke{bottom:70px;filter:blur(35px);background:#b589ef}
+.lisa-magic .wicked-ingredient{bottom:125px}
+.lisa-magic h2{color:#dfcaff;text-shadow:0 0 25px #ae72dc}
+.lisa-magic .potion-caption{color:#dfcaff}
+@media(max-width:400px){.lisa-helper.wicked-witch{right:auto;left:calc(50% - 80px);width:160px}.wicked-witch .witch-face{width:160px;height:190px}.witch-laugh{font-size:18px}}
+</style><style id="staff-halloween-celebrations">
+.staff-celebration{background:radial-gradient(ellipse at 50% 55%,color-mix(in srgb,var(--magic-color) 24%,#14101f),#080510 75%);animation:none;perspective:700px}
+.staff-celebration h2{top:12%;margin:0;color:#fff2dc;text-shadow:0 0 18px var(--magic-color),0 0 65px var(--magic-color);font-size:clamp(42px,9vw,100px);animation:staff-name-reveal 1s cubic-bezier(.2,.9,.3,1) both}
+.staff-spell-title{position:absolute;top:26%;width:100%;text-align:center;color:var(--magic-color);font:600 clamp(18px,3vw,28px) Georgia,serif;z-index:4;margin:0}
+.staff-magic-hero{position:absolute;left:calc(50% - min(24vw,130px));top:42%;width:min(48vw,260px);height:32vh;object-fit:contain;filter:drop-shadow(0 0 30px var(--magic-color));animation:staff-hero-reveal 7s both;z-index:2}
+.staff-magic-sprite{position:absolute;left:var(--x);top:var(--y);width:var(--size);height:var(--size);object-fit:contain;filter:drop-shadow(0 0 12px var(--magic-color));animation:staff-orbit 6s ease-in-out var(--delay) both;opacity:0}
+.staff-magic-spark{position:absolute;left:var(--left);top:-50px;color:var(--magic-color);font-size:var(--size);text-shadow:0 0 14px var(--magic-color);animation:staff-spark-rain 6s linear var(--delay) both;opacity:0}
+.spell-ring{position:absolute;left:50%;top:59%;width:var(--ring-size);height:var(--ring-size);max-width:120vw;max-height:120vw;border:2px solid var(--magic-color);border-radius:50%;box-shadow:0 0 24px var(--magic-color),inset 0 0 24px var(--magic-color);animation:spell-ring-pulse 3s ease-out var(--delay) 2;opacity:0;transform:translate(-50%,-50%)}
+.staff-celebration .tips-close{pointer-events:auto}
+.staff-theme-1 .staff-magic-sprite,.staff-theme-7 .staff-magic-sprite{animation-name:staff-pumpkin-bounce}
+.staff-theme-2 .staff-magic-sprite,.staff-theme-5 .staff-magic-sprite{animation-name:staff-cross}
+.staff-theme-3 .staff-magic-hero{animation-name:staff-witch-spin}
+.staff-theme-4 .spell-ring,.staff-theme-11 .spell-ring{background:radial-gradient(circle,#090510 55%,var(--magic-color) 60%,transparent 68%)}
+.staff-theme-6 .staff-magic-spark{animation-name:staff-spider-drop}
+.staff-theme-8 .staff-magic-sprite{animation-name:staff-whirl}
+.staff-theme-9 .staff-magic-spark{font-size:calc(var(--size) * 1.4)}
+.staff-theme-10 .staff-magic-sprite{animation-name:staff-ghost-dance}
+.staff-theme-12 .staff-magic-sprite{animation-name:staff-cross;filter:drop-shadow(0 0 25px #f5bf40)}
+@keyframes staff-name-reveal{from{opacity:0;transform:scale(.3) translateY(-50px)}to{opacity:1;transform:scale(1)}}
+@keyframes staff-hero-reveal{0%{opacity:0;transform:scale(.1)}20%{opacity:1;transform:scale(1.15)}40%,80%{opacity:1;transform:scale(1) translateY(-12px)}100%{opacity:0;transform:scale(1.3)}}
+@keyframes staff-orbit{0%{opacity:0;transform:scale(.2) rotate(var(--turn))}20%{opacity:.9}65%{opacity:.85;transform:translate(30px,-35px) rotate(calc(var(--turn) * -1)) scale(1.2)}100%{opacity:0;transform:translate(var(--drift),-120px) scale(.4)}}
+@keyframes staff-spark-rain{10%,85%{opacity:1}100%{opacity:0;transform:translate(var(--drift),110vh) rotate(180deg)}}
+@keyframes spell-ring-pulse{0%{opacity:0;transform:translate(-50%,-50%) scale(.1)}30%{opacity:.65}100%{opacity:0;transform:translate(-50%,-50%) scale(1.8)}}
+@keyframes staff-pumpkin-bounce{0%{opacity:0;transform:translateY(-60vh) scale(.3)}30%{opacity:1;transform:translateY(20px) scale(1.1)}50%{transform:translateY(-60px)}75%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(100vh)}}
+@keyframes staff-cross{0%{opacity:0;transform:translateX(var(--travel)) scale(.4)}25%,75%{opacity:.9}100%{opacity:0;transform:translateX(calc(var(--travel) * -1)) scale(1.1)}}
+@keyframes staff-witch-spin{0%{opacity:0;transform:scale(.1) rotate(-180deg)}25%,80%{opacity:1;transform:scale(1.1) rotate(8deg)}100%{opacity:0;transform:scale(1.2)}}
+@keyframes staff-spider-drop{15%,80%{opacity:1}50%{transform:translateY(45vh) rotate(25deg)}100%{opacity:0;transform:translateY(-100px)}}
+@keyframes staff-whirl{0%{opacity:0;transform:rotate(-90deg) translateX(-60vw) scale(.2)}30%,70%{opacity:.9}100%{opacity:0;transform:rotate(90deg) translateX(60vw) scale(1.3)}}
+@keyframes staff-ghost-dance{0%{opacity:0;transform:scale(.1)}20%,80%{opacity:1}35%,65%{transform:translateY(-50px) rotate(-15deg)}50%{transform:translateY(0) rotate(15deg)}100%{opacity:0;transform:scale(.1)}}
+@media(max-height:500px){.staff-celebration h2{top:5%;font-size:36px}.staff-spell-title{top:22%;font-size:18px}.staff-magic-hero{top:36%;height:50vh}}
+@media(prefers-reduced-motion:reduce){.staff-celebration,.staff-celebration h2,.staff-magic-hero,.staff-magic-sprite,.staff-magic-spark,.spell-ring{animation:none}.staff-magic-sprite{opacity:.35}.staff-magic-hero{opacity:1}.staff-magic-spark{display:none}}
+</style><style id="ghost-circles-style">
+#gf .num{cursor:grab}#gf .num.ghost-is-dragged{opacity:.2}
+.circle-ghost-copy{position:fixed;z-index:2400;pointer-events:none;background:url('assets/halloween-black-hat-ghost.png') center/contain no-repeat;filter:drop-shadow(0 0 12px #b18aff)}
+.ghost-circle-count{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:2401;pointer-events:none;color:#f0dfff;background:#261331dd;border:1px solid #b18aff80;padding:8px 20px;border-radius:25px;font:24px Arial;letter-spacing:6px}
+#gf .reference-art.spider-is-ready{filter:drop-shadow(0 0 12px #ff681d);transform:scale(1.08)}
+.spider-feast{position:fixed;inset:0;z-index:2500;pointer-events:none;background:#07020c70}
+.eating-spider{position:absolute;font-size:80px;line-height:1;filter:drop-shadow(0 0 15px #f78422);animation:spider-chomp .8s both}
+.spider-prey{position:absolute;object-fit:contain;animation:ghost-swallowed .75s ease-in both}
+@keyframes ghost-swallowed{0%{opacity:1}65%{opacity:1;transform:translate(var(--eat-x),var(--eat-y)) scale(.25)}100%{opacity:0;transform:translate(var(--eat-x),var(--eat-y)) scale(0)}}
+@keyframes spider-chomp{0%{transform:scale(.7)}55%{transform:scale(1.45)}80%{transform:scale(.9)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.spider-prey{animation:none;opacity:0}.eating-spider{animation:none}}
+</style><style id="ghost-bonus-hint">.ghost-bonus-hint{margin:14px 0 0;color:#8b6b54;font:italic 14px/1.5 Georgia,serif}.ghost-bonus-hint span{color:#664776;font-weight:700}</style><style id="animated-ghost-bonus-hint">.ghost-bonus-hint{display:flex;align-items:center;gap:10px;width:fit-content;max-width:100%;box-sizing:border-box;padding:10px 13px;border:1px solid #d8bedf;border-radius:12px;background:#f7eef8;color:#71418b;font:600 italic 14px/1.5 Georgia,serif;animation:bonus-hint-float 3.2s ease-in-out infinite,bonus-hint-glow 3.2s ease-in-out infinite}.ghost-bonus-hint:before{content:"";display:block;flex:0 0 30px;width:30px;height:38px;background:url("assets/halloween-black-hat-ghost.png") center/contain no-repeat;animation:bonus-ghost-wiggle 3.2s ease-in-out infinite}@keyframes bonus-hint-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}@keyframes bonus-hint-glow{0%,100%{box-shadow:0 0 0 #b77cd000;border-color:#dfcce5}50%{box-shadow:0 0 15px #b77cd040;border-color:#b784ca;color:#53216f}}@keyframes bonus-ghost-wiggle{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}@media(prefers-reduced-motion:reduce){.ghost-bonus-hint,.ghost-bonus-hint:before{animation:none}}</style><style id="halloween-ambient-style">
+.halloween-ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:15;contain:strict}
+.ambient-particle{position:absolute;left:var(--x);top:var(--y);width:var(--size);height:var(--size);border-radius:50%;background:var(--color);box-shadow:0 0 8px var(--color);opacity:0;animation:ambient-float var(--duration) ease-in-out var(--delay) infinite}
+.ambient-mist{position:absolute;left:-40%;top:var(--y);width:90%;height:120px;background:radial-gradient(ellipse,#b9a4d814,transparent 68%);filter:blur(24px);opacity:0;animation:ambient-fog var(--duration) linear var(--delay) infinite}
+.ambient-spider{position:absolute;left:var(--x);top:-30px;font-size:24px;line-height:1;width:26px;text-align:center;animation:ambient-spider-drop var(--duration) ease-in-out var(--delay) infinite;filter:drop-shadow(0 1px 2px #fff8)}
+.ambient-spider:before{content:'';position:absolute;bottom:23px;left:50%;height:190px;width:1px;background:#9c8ab066}
+@keyframes ambient-float{0%,100%{opacity:0;transform:translate(0,25px)}25%,70%{opacity:.55}50%{transform:translate(var(--drift),-55px)}}
+@keyframes ambient-fog{0%,100%{opacity:0;transform:translateX(0)}25%,75%{opacity:.6}100%{transform:translateX(150vw)}}
+@keyframes ambient-spider-drop{0%,65%,100%{transform:translateY(0)}12%{transform:translateY(130px) rotate(-5deg)}18%{transform:translateY(120px) rotate(5deg)}28%,36%{transform:translateY(140px) rotate(-3deg)}50%{transform:translateY(0)}}
+@media(max-width:600px){.ambient-particle:nth-child(n+9){display:none}.ambient-mist{height:85px;opacity:.2}.ambient-spider{font-size:20px}.ambient-spider:nth-last-child(1){display:none}}
+@media(prefers-reduced-motion:reduce){.halloween-ambient{display:none}}
+</style><style id="visible-ambient-mist">.ambient-mist{width:110%;height:180px;background:radial-gradient(ellipse at 35% 50%,#ae91cd44,transparent 62%),radial-gradient(ellipse at 70% 50%,#d1c6de35,transparent 58%);filter:blur(16px)}@keyframes ambient-fog{0%{opacity:0;transform:translateX(-10vw)}15%,75%{opacity:.8}100%{opacity:0;transform:translateX(105vw)}}@media(max-width:600px){.ambient-mist{height:125px;background:radial-gradient(ellipse,#ad91cc38,transparent 67%)}}</style><style id="ghost-local-mist">#gf .num{overflow:visible;isolation:isolate}#gf .num .ambient-mist{pointer-events:none;z-index:-1;left:50%;top:0;width:145px;height:115px;max-width:none;border-radius:50%;background:radial-gradient(ellipse,#aa8bc655,#d4c3e92b 40%,transparent 70%);filter:blur(11px);animation:ghost-local-fog 8s ease-in-out var(--delay) infinite}#gf .num .ambient-mist:nth-of-type(2){top:16px;animation-duration:11s}#gf .num .ambient-mist:nth-of-type(3){top:-12px;animation-duration:13s}@keyframes ghost-local-fog{0%,100%{opacity:.25;transform:translate(-65%,0) scale(.75)}50%{opacity:.85;transform:translate(-35%,-20px) scale(1.15)}}@media(max-width:600px){#gf .num .ambient-mist{width:110px;height:95px}}@media(prefers-reduced-motion:reduce){#gf .num .ambient-mist{display:none}}</style></head><body>
 
 
 
@@ -804,13 +982,22 @@ date.addEventListener('click',event=>{
  for(let i=0;i<24;i++){const spark=document.createElement('span');spark.className='halloween-spark';spark.setAttribute('aria-hidden','true');spark.textContent=i%3===0?'🦇':'✦';const angle=i/24*Math.PI*2;const radius=180+Math.random()*220;spark.style.setProperty('--x',Math.cos(angle)*radius+'px');spark.style.setProperty('--y',Math.sin(angle)*radius+'px');spark.style.setProperty('--spin',(Math.random()*100-50)+'deg');spark.style.setProperty('--size',(18+Math.random()*20)+'px');spark.style.setProperty('--delay',(Math.random()*.15)+'s');layer.append(spark);}
  document.body.append(layer);setTimeout(()=>layer.remove(),3900);
 });})();</script><script id="halloween-candy-ghost-eggs">(()=>{
-let timers=[];function stop(){timers.forEach(clearTimeout);timers=[];document.querySelector('.halloween-party')?.remove();document.body.classList.remove('halloween-shake');}
-function show(kind){stop();const layer=document.createElement('div');layer.className='halloween-party '+(kind==='ghost'?'ghost-party':'candy-party');layer.setAttribute('role','status');const title=document.createElement('h2');title.textContent=kind==='ghost'?'Boo！':'Trick or Treat！';layer.append(title);
+let scareAudio=null;
+function silence(){if(scareAudio){scareAudio.close().catch(()=>{});scareAudio=null;}}
+function hauntedSound(){silence();try{const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return;const ctx=new Context();scareAudio=ctx;ctx.resume().catch(()=>{});const now=ctx.currentTime,master=ctx.createGain();master.gain.value=.18;master.connect(ctx.destination);
+const rumble=ctx.createOscillator(),low=ctx.createGain();rumble.type='sawtooth';rumble.frequency.setValueAtTime(42,now);rumble.frequency.exponentialRampToValueAtTime(95,now+3.05);low.gain.setValueAtTime(.03,now);low.gain.linearRampToValueAtTime(.3,now+2.8);low.gain.linearRampToValueAtTime(0,now+3.1);rumble.connect(low).connect(master);rumble.start(now);rumble.stop(now+3.2);
+const buffer=ctx.createBuffer(1,ctx.sampleRate*6,ctx.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=Math.random()*2-1;
+const wind=ctx.createBufferSource();wind.buffer=buffer;const filter=ctx.createBiquadFilter();filter.type='bandpass';filter.frequency.setValueAtTime(180,now);filter.frequency.linearRampToValueAtTime(1200,now+3.1);filter.frequency.exponentialRampToValueAtTime(260,now+5.8);filter.Q.value=.8;const volume=ctx.createGain();volume.gain.setValueAtTime(.01,now);volume.gain.linearRampToValueAtTime(.2,now+2.7);volume.gain.setValueAtTime(.08,now+3);volume.gain.linearRampToValueAtTime(.75,now+3.08);volume.gain.exponentialRampToValueAtTime(.01,now+5.8);wind.connect(filter).connect(volume).connect(master);wind.start(now);wind.stop(now+6);
+for(const frequency of [155,207,311]){const voice=ctx.createOscillator(),gain=ctx.createGain();voice.type='sawtooth';voice.frequency.setValueAtTime(frequency,now+3.05);voice.frequency.exponentialRampToValueAtTime(frequency*.38,now+4.6);gain.gain.setValueAtTime(0,now);gain.gain.setValueAtTime(.01,now+3.04);gain.gain.linearRampToValueAtTime(.14,now+3.1);gain.gain.exponentialRampToValueAtTime(.001,now+4.9);voice.connect(gain).connect(master);voice.start(now+3.04);voice.stop(now+5);}
+}catch{silence();}}
+let timers=[];function stop(){silence();timers.forEach(clearTimeout);timers=[];document.querySelector('.halloween-party')?.remove();document.body.classList.remove('halloween-shake');}
+function isHalloweenToday(){const parts=new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Sydney',month:'numeric',day:'numeric'}).formatToParts(new Date());return parts.find(p=>p.type==='month')?.value==='10'&&parts.find(p=>p.type==='day')?.value==='31';}
+function show(kind){if(kind==='ghost'&&!isHalloweenToday())return;stop();if(kind==='ghost')hauntedSound();const layer=document.createElement('div');layer.className='halloween-party '+(kind==='ghost'?'ghost-party':'candy-party');layer.setAttribute('role','status');const title=document.createElement('h2');title.textContent=kind==='ghost'?'Boo！':'Trick or treat';layer.append(title);
  for(let i=0;i<36;i++){const star=document.createElement('span');star.className='party-star';star.setAttribute('aria-hidden','true');star.textContent=kind==='ghost'?'✧':['✦','🍬','🍭'][i%3];star.style.setProperty('--left',Math.random()*100+'%');star.style.setProperty('--size',(15+Math.random()*28)+'px');star.style.setProperty('--delay',Math.random()*.7+'s');layer.append(star);}
  if(kind==='candy'){for(let i=0;i<16;i++){const c=document.createElement('span');c.className='party-candy';c.setAttribute('aria-hidden','true');const a=i/16*Math.PI*2;c.style.setProperty('--x',Math.cos(a)*(230+Math.random()*280)+'px');c.style.setProperty('--y',(Math.sin(a)*340-150)+'px');c.style.setProperty('--spin',(Math.random()*360-180)+'deg');c.style.setProperty('--size',(38+Math.random()*45)+'px');c.style.setProperty('--delay',Math.random()*.3+'s');layer.append(c);}}
- else{const g=document.createElement('div');g.className='party-ghost';g.setAttribute('aria-hidden','true');layer.append(g);const final=document.createElement('div');final.className='ghost-final';final.setAttribute('aria-hidden','true');layer.append(final);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timers.push(setTimeout(()=>document.body.classList.add('halloween-shake'),3550));}
- document.body.append(layer);timers.push(setTimeout(stop,5100));}
- for(const [selector,kind]of [['#sauces .num','candy'],['#gf .num','ghost']]){const icon=document.querySelector(selector);if(!icon)continue;let count=0,last=0;icon.addEventListener('click',()=>{const now=performance.now();count=now-last<650?count+1:1;last=now;if(count===3){count=0;show(kind);}});}
+ else{const g=document.createElement('div');g.className='party-ghost';g.setAttribute('aria-hidden','true');layer.append(g);const final=document.createElement('div');final.className='ghost-final';final.setAttribute('aria-hidden','true');layer.append(final);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timers.push(setTimeout(()=>document.body.classList.add('halloween-shake'),3050));}
+ if(kind==='ghost'){const mute=document.createElement('button');mute.type='button';mute.className='scare-mute';mute.textContent='Mute';mute.addEventListener('click',()=>{silence();mute.textContent='Muted';});const close=document.createElement('button');close.type='button';close.className='scare-close';close.textContent='×';close.setAttribute('aria-label','Close scare');close.addEventListener('click',stop);layer.append(mute,close);const shadow=document.createElement('div');shadow.className='scare-shadow';shadow.setAttribute('aria-hidden','true');layer.append(shadow);}document.body.append(layer);timers.push(setTimeout(stop,kind==='ghost'?6200:5100));}
+ document.addEventListener('halloween-scare',()=>show('ghost'));document.addEventListener('halloween-treat',()=>show('candy'));document.addEventListener('halloween-stop-scare',stop);
  document.addEventListener('keydown',e=>{if(e.key==='Escape')stop();});
 })();</script><script id="halloween-bat-swarm">
 (()=>{const card=document.querySelector('.coming-shift');if(!card)return;
@@ -821,4 +1008,91 @@ for(let i=0;i<44;i++){const bat=document.createElement('span');bat.className='sw
 bat.innerHTML='<svg viewBox="0 0 160 88"><path d="M80 39 70 22 66 38C49 17 26 10 0 7Q15 24 11 46Q31 38 37 64Q51 50 62 71L80 86 98 71Q109 50 123 64Q129 38 149 46Q145 24 160 7C134 10 111 17 94 38L90 22Z"/><path d="M73 46h5v4h-5zm10 0h5v4h-5z" fill="#ffab30"/></svg>';layer.append(bat);}
 document.body.append(layer);timer=setTimeout(clear,5200);}
 trigger.addEventListener('click',()=>{const now=Date.now();clicks=now-last<650?clicks+1:1;last=now;if(clicks===3){clicks=0;show();}});document.addEventListener('keydown',e=>{if(e.key==='Escape')clear();});})();
-</script></body></html>
+</script><script id="halloween-name-effects-script">(()=>{
+ const card=document.querySelector('#sauces .section-content');if(!card)return;
+ const form=document.createElement('form');form.className='halloween-name-form';form.innerHTML='<label for="halloween-employee-name">Who’s there?</label><input id="halloween-employee-name" autocomplete="off" enterkeyhint="go" maxlength="100" placeholder="" required><button type="submit" hidden tabindex="-1" aria-hidden="true">Trick or treat</button>';
+ const status=document.createElement('p');status.className='halloween-name-status';status.setAttribute('role','status');const dialog=document.createElement('dialog');dialog.className='halloween-name-dialog';dialog.setAttribute('aria-label','Halloween surprise');const close=document.createElement('button');close.type='button';close.className='halloween-dialog-close';close.textContent='×';close.setAttribute('aria-label','Close');const portrait=document.createElement('div');portrait.className='question-ghost';portrait.setAttribute('aria-hidden','true');dialog.append(close,portrait,form,status);document.body.append(dialog);close.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{request++;button.disabled=false;status.textContent='';candy?.focus();});
+ const input=form.querySelector('input'),button=form.querySelector('button');let timer,request=0;
+
+ const candy=document.querySelector('#sauces .num'),ghost=document.querySelector('#sauces .reference-art');let drag=null;
+ function openName(){if(!dialog.open){status.textContent='';button.disabled=false;dialog.showModal();input.focus();}}
+ if(candy&&ghost){candy.tabIndex=0;candy.setAttribute('role','button');candy.setAttribute('aria-label','Drag candy bucket to the ghost, or press Enter');candy.title='Drag to the ghost';candy.style.touchAction='none';
+ function reset(){if(!drag)return;const state=drag;drag=null;state.copy.remove();ghost.classList.remove('candy-drop-ready');candy.classList.remove('candy-dragging');try{candy.releasePointerCapture(state.id);}catch{}}
+ candy.addEventListener('pointerdown',event=>{if(event.button!==0)return;reset();const r=candy.getBoundingClientRect();const copy=document.createElement('div');copy.className='candy-drag-copy';copy.style.width=r.width+'px';copy.style.height=r.height+'px';document.body.append(copy);drag={id:event.pointerId,copy,x:event.clientX,y:event.clientY,dx:event.clientX-r.left,dy:event.clientY-r.top};copy.style.left=r.left+'px';copy.style.top=r.top+'px';candy.classList.add('candy-dragging');candy.setPointerCapture(event.pointerId);event.preventDefault();});
+ candy.addEventListener('pointermove',event=>{if(!drag||drag.id!==event.pointerId)return;drag.copy.style.left=event.clientX-drag.dx+'px';drag.copy.style.top=event.clientY-drag.dy+'px';const r=ghost.getBoundingClientRect();ghost.classList.toggle('candy-drop-ready',event.clientX>=r.left-24&&event.clientX<=r.right+24&&event.clientY>=r.top-24&&event.clientY<=r.bottom+24);});
+ candy.addEventListener('pointerup',event=>{if(!drag||drag.id!==event.pointerId)return;const r=ghost.getBoundingClientRect();const hit=event.clientX>=r.left-24&&event.clientX<=r.right+24&&event.clientY>=r.top-24&&event.clientY<=r.bottom+24&&Math.hypot(event.clientX-drag.x,event.clientY-drag.y)>12;reset();if(hit)openName();});
+ candy.addEventListener('pointercancel',reset);candy.addEventListener('lostpointercapture',reset);candy.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openName();}if(event.key==='Escape')reset();});window.addEventListener('blur',reset);
+ }
+ const normalize=value=>String(value).normalize('NFKC').trim().replace(/\s+/g,' ').toLocaleLowerCase('en-AU');
+ function clear(){clearTimeout(timer);const layer=document.querySelector('.name-fx');const focused=layer?.contains(document.activeElement);layer?.remove();if(focused)candy?.focus({preventScroll:true});}
+ function effect(kind,employee){document.dispatchEvent(new Event('halloween-stop-scare'));if(dialog.open)dialog.close();clear();document.querySelector('.halloween-party')?.remove();document.body.classList.remove('halloween-shake');if(kind==='treat'){document.dispatchEvent(new Event('halloween-treat'));return;}
+ const layer=document.createElement('div');layer.className='name-fx';layer.setAttribute('role','status');layer.setAttribute('aria-label',kind==='tips'?'More tips! Australian dollar celebration':'Lightning and flying ghosts');
+ if(kind==='staff'){
+ const themes=[['Candy storm','candy','#ff9438','🍬'],['Pumpkin awakening','pumpkin','#ff6a24','✦'],['Ghost parade','ghost','#9cdfff','✧'],['Witching hour','ghost','#be85ff','✦'],['Haunted moon','ghost','#a4baff','☾'],['Midnight bats','ghost','#ea9869','🦇'],['Spider spell','ghost','#d0b7ff','🕷'],['Jack-o’-lantern festival','pumpkin','#ffc24b','✦'],['Phantom whirlwind','ghost','#83eadb','✧'],['Sweet spell','candy','#ff92ca','🍭'],['Ghost dance','ghost','#d1a9ff','✦'],['Pumpkin eclipse','pumpkin','#ff813e','☾'],['Halloween finale','pumpkin','#ebbe70','🦇']];
+ const known=['linh','julia','ron','yoyo','chen','ting','abby','elroy','jared','jaden','hui','richard','ernest'];const normalized=normalize(employee.name);let index=known.indexOf(normalized);if(index<0)index=employee.index%13;
+ const [label,asset,color,symbol]=employee.welcome?['Welcome back!','ghost','#ffaf75','🍬']:themes[index];layer.classList.add('staff-celebration','staff-theme-'+index);layer.style.setProperty('--magic-color',color);layer.setAttribute('aria-label',employee.name+' Halloween '+label);
+ const heading=document.createElement('h2');heading.textContent=employee.welcome?'Welcome back!':employee.name;layer.append(heading);const subtitle=document.createElement('p');subtitle.className='staff-spell-title';subtitle.textContent=employee.welcome?'Vivian · Happy Halloween!':label;layer.append(subtitle);
+ for(let i=0;i<3;i++){const ring=document.createElement('span');ring.className='spell-ring';ring.setAttribute('aria-hidden','true');ring.style.cssText='--delay:'+i*.35+'s;--ring-size:'+(220+i*130)+'px';layer.append(ring);}
+ const files={ghost:'halloween-black-hat-ghost.png',pumpkin:'halloween-round-pumpkin.png',candy:'halloween-candy-bucket-orange.png'};
+ for(let i=0;i<18;i++){const sprite=document.createElement('img');sprite.src='assets/'+files[asset];sprite.alt='';sprite.className='staff-magic-sprite';sprite.style.cssText='--x:'+((i%6)*20-5)+'vw;--y:'+(Math.floor(i/6)*35-5)+'vh;--delay:'+Math.random()*1.4+'s;--size:'+(60+Math.random()*80)+'px;--turn:'+(Math.random()*60-30)+'deg;--travel:'+(i%2===0?'-140vw':'140vw')+';--drift:'+(Math.random()*160-80)+'px';layer.append(sprite);}
+ for(let i=0;i<50;i++){const spark=document.createElement('span');spark.className='staff-magic-spark';spark.textContent=i%5===0?symbol:'✦';spark.setAttribute('aria-hidden','true');spark.style.cssText='--left:'+Math.random()*100+'%;--delay:'+Math.random()*2+'s;--size:'+(16+Math.random()*22)+'px;--drift:'+(Math.random()*220-110)+'px';layer.append(spark);}
+ const hero=document.createElement('img');hero.src='assets/'+files[asset];hero.alt='';hero.className='staff-magic-hero';layer.append(hero);
+ const close=document.createElement('button');close.className='tips-close';close.type='button';close.textContent='×';close.setAttribute('aria-label','Close Halloween celebration');close.addEventListener('click',clear);layer.append(close);
+ }
+ else if(kind==='rex'||kind==='lisa'){
+ layer.classList.add('personal-magic',kind+'-magic');layer.setAttribute('aria-label',kind==='rex'?'Rex, adored by Halloween ghosts':'Lisa brewing a magic potion');
+ const title=document.createElement('h2');title.textContent=kind==='rex'?'Rex, you cast a spell on us!':'Lisa’s spell went wrong!';layer.append(title);
+ const scene=document.createElement('div');scene.className='personal-magic-scene';layer.append(scene);
+ if(kind==='rex'){const name=document.createElement('div');name.className='rex-name';name.textContent='Rex';scene.append(name);for(let i=0;i<5;i++){const ghost=document.createElement('img');ghost.src='assets/halloween-black-hat-ghost.png';ghost.alt='';ghost.className='admiring-ghost';ghost.style.cssText='--angle:'+(i*72)+'deg;--delay:'+i*.2+'s';scene.append(ghost);}for(let i=0;i<26;i++){const heart=document.createElement('span');heart.className='adoring-heart';heart.textContent=i%4===0?'✦':'♥';heart.setAttribute('aria-hidden','true');heart.style.cssText='--left:'+Math.random()*95+'%;--delay:'+Math.random()*2+'s;--size:'+(18+Math.random()*28)+'px';layer.append(heart);}}
+ else{const pot=document.createElement('div');pot.className='lisa-cauldron';pot.setAttribute('aria-hidden','true');scene.append(pot);const witch=document.createElement('div');witch.className='lisa-helper wicked-witch';witch.setAttribute('aria-hidden','true');witch.innerHTML='<img class="witch-face" src="assets/halloween-black-hat-ghost.png" alt=""><span class="witch-laugh">Oops… hee hee!</span>';scene.append(witch);for(let i=0;i<9;i++){const ingredient=document.createElement('span');ingredient.className='wicked-ingredient';ingredient.setAttribute('aria-hidden','true');ingredient.textContent=['☠','🦇','🕷','✦'][i%4];ingredient.style.cssText='--delay:'+i*.55+'s;--drift:'+(Math.random()*160-80)+'px';scene.append(ingredient);}for(let i=0;i<28;i++){const bubble=document.createElement('span');bubble.className='potion-bubble';bubble.setAttribute('aria-hidden','true');bubble.style.cssText='--left:'+(35+Math.random()*30)+'%;--delay:'+Math.random()*3+'s;--size:'+(10+Math.random()*30)+'px;--drift:'+(Math.random()*160-80)+'px';scene.append(bubble);}for(let i=0;i<8;i++){const smoke=document.createElement('span');smoke.className='potion-smoke';smoke.setAttribute('aria-hidden','true');smoke.style.cssText='--delay:'+i*.4+'s;--drift:'+(Math.random()*140-70)+'px';scene.append(smoke);}const caption=document.createElement('p');caption.className='potion-caption';caption.textContent='A little magic… a lot of mischief!';layer.append(caption);}
+ const close=document.createElement('button');close.className='tips-close';close.type='button';close.textContent='×';close.setAttribute('aria-label','Close magic');close.addEventListener('click',clear);layer.append(close);
+ }
+ else if(kind==='tips'){
+ layer.classList.add('tips-collect');layer.removeAttribute('role');layer.setAttribute('role','dialog');layer.setAttribute('aria-label','Collect Australian dollar tips');layer.setAttribute('aria-modal','true');
+ const mascot=document.createElement('div');mascot.className='tips-mascot';const ghost=document.createElement('img');ghost.src='assets/halloween-black-hat-ghost.png';ghost.alt='';const title=document.createElement('h2');title.textContent='More tips！';mascot.append(ghost,title);layer.append(mascot);
+ const score=document.createElement('p');score.className='tips-score';score.setAttribute('role','status');score.setAttribute('aria-live','polite');score.textContent='Collected A$0';layer.append(score);let total=0;
+ const hint=document.createElement('p');hint.className='tips-hint';hint.textContent='Tap the dollars to collect';layer.append(hint);
+ const done=document.createElement('button');done.type='button';done.className='tips-close';done.textContent='×';done.setAttribute('aria-label','Close tips celebration');done.addEventListener('click',clear);layer.append(done);
+ for(let i=0;i<48;i++){const value=[5,10,20,50,100][i%5];const note=document.createElement('button');note.type='button';note.className='aud-note';note.setAttribute('aria-label','Collect A$'+value);note.innerHTML='<small>AUSTRALIAN DOLLARS</small>A$'+value;note.style.cssText='--left:'+Math.random()*82+'%;--duration:'+(6+Math.random()*2)+'s;--delay:'+Math.random()*4+'s;--drift:'+(Math.random()*100-50)+'px;--spin:'+(Math.random()*100-50)+'deg;--top:'+(18+Math.random()*66)+'%';const collect=()=>{if(note.disabled)return;note.disabled=true;total+=value;score.textContent='Collected A$'+total;note.classList.add('tip-collected');setTimeout(()=>note.remove(),220);};note.addEventListener('pointerdown',event=>{event.preventDefault();collect();});note.addEventListener('click',collect);layer.append(note);}
+ setTimeout(()=>{if(layer.isConnected)done.focus({preventScroll:true});},0);
+ layer.addEventListener('keydown',event=>{if(event.key!=='Tab')return;const items=[...layer.querySelectorAll('button:not(:disabled)')];const first=items[0],last=items[items.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}});
+ }
+ else{for(let i=0;i<3;i++){const bolt=document.createElementNS('http://www.w3.org/2000/svg','svg');bolt.setAttribute('viewBox','0 0 1000 800');bolt.setAttribute('preserveAspectRatio','none');bolt.classList.add('lightning-bolt');bolt.style.setProperty('--delay',i*.6+'s');bolt.innerHTML='<path d="M'+(180+i*300)+' 0 l-50 190 80 -30 -120 220 85 -25 -150 330" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round"/>';layer.append(bolt);}for(let i=0;i<18;i++){const ghost=document.createElement('span');ghost.className='flying-ghost';ghost.setAttribute('aria-hidden','true');ghost.style.cssText='--top:'+Math.random()*80+'%;--size:'+(75+Math.random()*160)+'px;--duration:'+(2.8+Math.random()*1)+'s;--delay:'+Math.random()*1.2+'s';layer.append(ghost);}}
+ document.body.append(layer);timer=setTimeout(clear,kind==='tips'?14000:(kind==='rex'||kind==='lisa'||kind==='staff')?8000:5600);}
+ form.addEventListener('submit',async event=>{event.preventDefault();const name=normalize(input.value);if(!name)return;const id=++request;status.textContent='';if(name==='steve'){button.disabled=false;effect('tips');return;}if(name==='rex'){button.disabled=false;effect(name);return;}if(name==='vivian'){button.disabled=false;effect('staff',{name:'Vivian',index:13,welcome:true});return;}button.disabled=true;status.textContent='Checking employee name…';try{const result=await db.rpc('staff_hub_list_staff');if(id!==request)return;if(result.error||!Array.isArray(result.data))throw Error('lookup');const employeeIndex=result.data.findIndex(person=>normalize(person.name)===name);if(employeeIndex>=0)effect('staff',{name:result.data[employeeIndex].name,index:employeeIndex});else effect('ghosts');status.textContent='';}catch{if(id===request)status.textContent='Unable to check the employee list. Please try again.';}finally{button.disabled=false;}});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'){request++;button.disabled=false;status.textContent='';clear();}});
+})();</script><script id="ghost-circle-spider">(()=>{
+const ghost=document.querySelector('#gf .num'),web=document.querySelector('#gf .reference-art');if(!ghost||!web)return;let state=null,suppressUntil=0,eatTimer;
+function isHalloweenToday(){const parts=new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Sydney',month:'numeric',day:'numeric'}).formatToParts(new Date());return parts.find(p=>p.type==='month')?.value==='10'&&parts.find(p=>p.type==='day')?.value==='31';}
+ghost.style.touchAction='none';ghost.title='Halloween: draw three circles, then feed the spider';
+function target(){const r=web.getBoundingClientRect();return {x:r.right-70,y:r.top+80};}
+function near(x,y){const t=target();return Math.hypot(x-t.x,y-t.y)<58;}
+function reset(){if(!state)return;state.copy.remove();state.badge.remove();ghost.classList.remove('ghost-is-dragged');web.classList.remove('spider-is-ready');const id=state.id;state=null;try{ghost.releasePointerCapture(id);}catch{}}
+ghost.addEventListener('click',event=>{if(performance.now()<suppressUntil){event.preventDefault();event.stopImmediatePropagation();}},true);
+ghost.addEventListener('pointerdown',event=>{if(event.button!==0||!isHalloweenToday())return;reset();const r=ghost.getBoundingClientRect(),copy=document.createElement('div'),badge=document.createElement('div');copy.className='circle-ghost-copy';copy.style.width=r.width+'px';copy.style.height=r.height+'px';copy.style.left=r.left+'px';copy.style.top=r.top+'px';badge.className='ghost-circle-count';badge.textContent='○ ○ ○';document.body.append(copy,badge);state={id:event.pointerId,copy,badge,dx:event.clientX-r.left,dy:event.clientY-r.top,last:{x:event.clientX,y:event.clientY},anchor:{x:event.clientX,y:event.clientY},vector:null,turn:0,length:0,minX:event.clientX,maxX:event.clientX,minY:event.clientY,maxY:event.clientY,count:0,moved:false};ghost.classList.add('ghost-is-dragged');ghost.setPointerCapture(event.pointerId);});
+ghost.addEventListener('pointermove',event=>{const s=state;if(!s||event.pointerId!==s.id)return;const x=event.clientX,y=event.clientY,dx=x-s.last.x,dy=y-s.last.y,d=Math.hypot(dx,dy);s.copy.style.left=x-s.dx+'px';s.copy.style.top=y-s.dy+'px';if(d<3)return;s.moved=true;s.length+=d;s.minX=Math.min(s.minX,x);s.maxX=Math.max(s.maxX,x);s.minY=Math.min(s.minY,y);s.maxY=Math.max(s.maxY,y);if(s.vector){const cross=s.vector.x*dy-s.vector.y*dx,dot=s.vector.x*dx+s.vector.y*dy;const delta=Math.atan2(cross,dot);if(Math.abs(delta)<1.4)s.turn+=delta;}s.vector={x:dx,y:dy};s.last={x,y};if(s.count<3&&Math.abs(s.turn)>5.1&&s.length>130&&s.maxX-s.minX>35&&s.maxY-s.minY>35&&Math.hypot(x-s.anchor.x,y-s.anchor.y)<45){s.count++;s.badge.textContent=Array.from({length:3},(_,i)=>i<s.count?'●':'○').join(' ');if(s.count===3)s.badge.textContent='● ● ●  🕷';s.turn=0;s.length=0;s.vector=null;s.anchor={x,y};s.minX=s.maxX=x;s.minY=s.maxY=y;}web.classList.toggle('spider-is-ready',s.count===3&&near(x,y));});
+ghost.addEventListener('pointerup',event=>{const s=state;if(!s||event.pointerId!==s.id)return;const hit=isHalloweenToday()&&s.count===3&&near(event.clientX,event.clientY);if(s.moved)suppressUntil=performance.now()+800;const r=s.copy.getBoundingClientRect();reset();if(!hit)return;
+const t=target(),overlay=document.createElement('div');overlay.className='spider-feast';const spider=document.createElement('span');spider.className='eating-spider';spider.textContent='🕷';spider.style.left=t.x-40+'px';spider.style.top=t.y-40+'px';const prey=document.createElement('img');prey.src='assets/halloween-black-hat-ghost.png';prey.alt='';prey.className='spider-prey';prey.style.cssText='left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px;--eat-x:'+(t.x-r.left-r.width/2)+'px;--eat-y:'+(t.y-r.top-r.height/2)+'px';overlay.append(spider,prey);document.body.append(overlay);document.dispatchEvent(new Event('halloween-scare'));clearTimeout(eatTimer);eatTimer=setTimeout(()=>overlay.remove(),850);});
+ghost.addEventListener('pointercancel',reset);ghost.addEventListener('lostpointercapture',reset);window.addEventListener('blur',reset);document.addEventListener('keydown',event=>{if(event.key==='Escape'){reset();clearTimeout(eatTimer);document.querySelector('.spider-feast')?.remove();}});
+})();</script><script id="ghost-bonus-hint-script">(()=>{const card=document.querySelector("#gf .section-content");if(!card)return;const hint=document.createElement("p");hint.className="ghost-bonus-hint";hint.textContent="shhh! Bonus surprise on Halloween!";card.append(hint);})();</script><script id="halloween-ambient-script">(()=>{
+const layer=document.createElement('div');layer.className='halloween-ambient';layer.setAttribute('aria-hidden','true');
+for(let i=0;i<14;i++){const dot=document.createElement('span');dot.className='ambient-particle';dot.style.cssText='--x:'+Math.random()*100+'%;--y:'+Math.random()*100+'%;--size:'+(2+Math.random()*3)+'px;--color:'+(i%2?'#ba8aff':'#ff9b41')+';--duration:'+(14+Math.random()*14)+'s;--delay:-'+Math.random()*25+'s;--drift:'+(Math.random()*70-35)+'px';layer.append(dot);}
+for(let i=0;i<3;i++){const fog=document.createElement('span');fog.className='ambient-mist';fog.style.cssText='--y:'+(24+i*29)+'%;--duration:'+(38+i*9)+'s;--delay:-'+i*15+'s';const haunt=document.querySelector("#gf .num");if(haunt){fog.style.setProperty("--y","0%");haunt.append(fog);}}
+for(let i=0;i<2;i++){const spider=document.createElement('span');spider.className='ambient-spider';spider.textContent='🕷';spider.style.cssText='--x:'+(i?94:5)+'%;--duration:'+(28+i*9)+'s;--delay:-'+i*17+'s';layer.append(spider);}
+document.body.append(layer);})();</script></body></html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
