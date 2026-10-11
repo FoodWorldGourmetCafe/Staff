@@ -24,7 +24,14 @@ for(const file of ['index.html','christmas.html']){
  await $('service-form').onsubmit({preventDefault(){}});assert.equal(submitted.p_request.kind,'withdraw');assert.equal(state.cells[0][3],'59');assert.equal($('service-request').open,false);
  session={user:{id:'owner'}};callback('SIGNED_IN',session);await tick();await tick();assert.equal($('admin-mode').getAttribute('aria-pressed'),'true');assert.equal($('approvals-open').textContent,'Pending · 1');
  $('approvals-open').click();assert.deepEqual([...window.document.querySelectorAll('.approval-category h3')].map(x=>x.textContent),['申请划班 · 待审批 1','工时变化 · 待审批 0','Bathroom · 待审批 0']);
+ assert.equal(window.document.querySelectorAll('.approval-tabs button').length,3);
+ const categories=[...window.document.querySelectorAll('.approval-category')];
+ assert.equal(categories.filter(x=>!x.hidden).length,1);
+ const tabs=[...window.document.querySelectorAll('.approval-tabs button')];tabs[2].click();assert.equal(categories[2].hidden,false);assert.equal(categories[0].hidden,true);tabs[0].click();
+ assert.equal(window.document.querySelectorAll('.approval-category-header button').length,3);
+ assert.ok([...window.document.querySelectorAll('.approval-history')].every(x=>!x.open));
  const button=[...$('approvals-list').querySelectorAll('button')].find(b=>b.textContent==='Approve');await button.onclick();assert.equal(approved.p_status,'approved');assert.equal(state.cells[0][3],'unavailable');assert.equal($('approvals-open').textContent,'Pending · 0');
+ assert.equal(window.document.querySelector('.approval-history').querySelectorAll('section').length,1);
  $('staff-mode').click();const preference=window.localStorage.getItem('staffhub.roster.mode');$('staff-mode').click();assert.equal(window.localStorage.getItem('staffhub.roster.mode'),preference);callback('TOKEN_REFRESHED',session);await tick();assert.equal($('staff-mode').getAttribute('aria-pressed'),'true');
  $('admin-mode').click();await tick();await tick();assert.equal($('admin-mode').getAttribute('aria-pressed'),'true');window.dispatchEvent(new window.MessageEvent('message',{source:window.parent,data:{channel:'staff-hub-roster',action:'admin'}}));await tick();assert.equal($('admin-mode').getAttribute('aria-pressed'),'true');
  session=null;callback('SIGNED_OUT',null);await tick();assert.equal($('staff-mode').getAttribute('aria-pressed'),'true');
