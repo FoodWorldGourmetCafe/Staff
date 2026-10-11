@@ -1,0 +1,12 @@
+{
+  "name": "staff-hub",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node roster-syntax-test.cjs && node roster-database-test.mjs && node roster-ui-test.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "happy-dom": "20.14.6"
+  }
+}

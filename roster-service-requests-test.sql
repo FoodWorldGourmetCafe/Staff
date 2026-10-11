@@ -1,0 +1,56 @@
+-- Run after roster-service-requests.sql. Every fixture is rolled back.
+begin;
+do $$
+declare wk date;owner uuid;r integer;other_r integer;rows integer;cells jsonb;s jsonb;rev bigint:=0;id text;failed boolean;
+begin
+ select user_id into owner from public.admin_users limit 1;
+ select count(*) into rows from public.staff_hub_directory;
+ select slot into r from public.staff_hub_directory where active order by slot limit 1;
+ select slot into other_r from public.staff_hub_directory where active and slot<>r order by slot limit 1;
+ select d::date into wk from generate_series(date '2099-01-05',date '2099-12-28',interval '7 days') d where not exists(select 1 from public.staff_hub_weeks where week_start=d::date) limit 1;
+ if owner is null or r is null or other_r is null or wk is null then raise exception 'Tests require administrator, two active staff and a spare test week';end if;
+ select jsonb_agg(to_jsonb(array_fill(''::text,array[14]))) into cells from generate_series(1,rows);
+ cells:=jsonb_set(cells,array[r::text,'3'],'"59"');
+ s:=jsonb_build_object('cells',cells,'published',null,'requests','[]'::jsonb,'transfers','[]'::jsonb,'cleaning',jsonb_build_object((wk+1)::text,jsonb_build_array(r)));
+ perform set_config('request.jwt.claim.sub',owner::text,true);
+ perform public.staff_hub_save_week_v2(wk,rev,s);rev:=rev+1;
+ perform set_config('request.jwt.claim.sub','',true);
+ perform public.staff_hub_submit_service_request(wk,rev,jsonb_build_object('kind','withdraw','row',r,'col',3,'planned','59'));rev:=rev+1;
+ select state into s from public.staff_hub_weeks where week_start=wk;
+ if s#>>array['cells',r::text,'3']<>'59' then raise exception 'Pending withdrawal changed assignment';end if;
+ id:=s#>>'{serviceRequests,0,id}';
+ failed:=false;begin perform public.staff_hub_decide_service_request(wk,rev,id,'approved');exception when others then failed:=true;end;
+ if not failed then raise exception 'Staff approved a request';end if;
+ failed:=false;begin perform public.staff_hub_submit_service_request(wk,rev,jsonb_build_object('kind','withdraw','row',r,'col',3,'planned','59'));exception when others then failed:=true;end;
+ if not failed then raise exception 'Duplicate pending request accepted';end if;
+ -- Ordinary availability changes must retain request history.
+ s:=jsonb_set(s,array['cells',other_r::text,'4'],'"unavailable"');
+ perform public.staff_hub_save_week_v2(wk,rev,s);rev:=rev+1;
+ perform set_config('request.jwt.claim.sub',owner::text,true);
+ perform public.staff_hub_decide_service_request(wk,rev,id,'approved');rev:=rev+1;
+ select state into s from public.staff_hub_weeks where week_start=wk;
+ if s#>>array['cells',r::text,'3']<>'unavailable' then raise exception 'Approved withdrawal did not draw red line';end if;
+ s:=jsonb_set(s,'{published}',jsonb_build_object('cells',s->'cells','at',clock_timestamp()));
+ perform public.staff_hub_save_week_v2(wk,rev,s);rev:=rev+1;
+ perform set_config('request.jwt.claim.sub','',true);
+ failed:=false;begin perform public.staff_hub_submit_service_request(wk,rev,jsonb_build_object('kind','withdraw','row',r,'col',3,'planned','59'));exception when others then failed:=true;end;
+ if not failed then raise exception 'Published withdrawal accepted';end if;
+ perform public.staff_hub_submit_service_request(wk,rev,jsonb_build_object('kind','cleaning','day',(wk+1)::text,'planned',jsonb_build_array(r),'actual',jsonb_build_array(other_r)));rev:=rev+1;
+ select state into s from public.staff_hub_weeks where week_start=wk;
+ if s->'cleaning'->(wk+1)::text<>jsonb_build_array(r) then raise exception 'Pending cleaner changed assignment';end if;
+ id:=s#>>'{serviceRequests,1,id}';
+ perform set_config('request.jwt.claim.sub',owner::text,true);
+ perform public.staff_hub_decide_service_request(wk,rev,id,'approved');rev:=rev+1;
+ select state into s from public.staff_hub_weeks where week_start=wk;
+ if s->'cleaning'->(wk+1)::text<>jsonb_build_array(other_r) then raise exception 'Locked Bathroom approval failed';end if;
+ perform set_config('request.jwt.claim.sub','',true);
+ perform public.staff_hub_submit_service_request(wk,rev,jsonb_build_object('kind','cleaning','day',(wk+1)::text,'planned',jsonb_build_array(other_r),'actual','[]'::jsonb));rev:=rev+1;
+ select state into s from public.staff_hub_weeks where week_start=wk;
+ id:=s#>>'{serviceRequests,2,id}';
+ perform set_config('request.jwt.claim.sub',owner::text,true);
+ perform public.staff_hub_decide_service_request(wk,rev,id,'approved');rev:=rev+1;
+ select state into s from public.staff_hub_weeks where week_start=wk;
+ if s->'cleaning'->(wk+1)::text<>'[]'::jsonb then raise exception 'Not cleaned approval failed';end if;
+ raise notice 'Service request integration tests passed. Roll back fixtures.';
+end $$;
+rollback;
