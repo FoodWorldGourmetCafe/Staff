@@ -15,7 +15,7 @@ create function public.staff_hub_shift_minutes(code text) returns integer langua
 create function public.staff_hub_get_week_v2(p_week date) returns jsonb language sql as $$select coalesce((select jsonb_build_object('state',state,'revision',revision) from public.staff_hub_weeks where week_start=p_week),jsonb_build_object('state',null,'revision',0))$$;
 create function public.staff_hub_save_week(p_week date,p_revision bigint,p_state jsonb) returns jsonb language plpgsql as $$begin return public.staff_hub_save_week_v2(p_week,p_revision,p_state);end$$;
 `);
-for(const file of ['roster-publish-lock.sql','roster-actual-adjustments.sql','roster-draft-request-lock.sql','roster-service-requests.sql','roster-service-requests.sql','roster-service-requests-test.sql','roster-leave-requests.sql','roster-leave-requests.sql','roster-leave-requests-test.sql','roster-unavailable-swap.sql','roster-unavailable-swap.sql','roster-unavailable-swap-test.sql']){
+for(const file of ['roster-publish-lock.sql','roster-actual-adjustments.sql','roster-draft-request-lock.sql','roster-service-requests.sql','roster-service-requests.sql','roster-service-requests-test.sql','roster-leave-requests.sql','roster-leave-requests.sql','roster-leave-requests-test.sql','roster-unavailable-swap.sql','roster-unavailable-swap.sql','roster-unavailable-swap-test.sql','roster-disable-leave.sql','roster-disable-leave.sql','roster-disable-leave-test.sql']){
  try{await db.exec(fs.readFileSync(file,'utf8'));console.log(file+': passed');}catch(e){console.log(file+': FAILED: '+e.message);console.log(e.where||'');process.exitCode=1;break;}
 }
 await db.close();
