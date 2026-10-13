@@ -829,7 +829,7 @@ setAdminState();
  function resize(){if(current!=='roster'||!ready)return;const viewport=window.visualViewport?.height||window.innerHeight;const top=Math.max(0,header.getBoundingClientRect().bottom);const height=Math.max(160,viewport-top-32);frame.contentWindow.postMessage({channel:'staff-hub-roster',action:'viewport',top:top-frame.getBoundingClientRect().top+height/2+16,height},'*');}
  window.addEventListener('message',event=>{if(event.source!==frame.contentWindow||event.data?.channel!=='staff-hub-roster')return;if(event.data.action==='login'){openAdminModal();return;}if(event.data.action!=='height')return;const height=event.data.height;if(Number.isFinite(height)&&height>0&&height<100000){frame.style.height=Math.max(260,height)+'px';resize();}});
  function showView(){
-  const next=location.hash==='#roster'?'roster':location.hash==='#staff-manual'?'manual':'home';
+  const next=location.hash==='#home'?'home':location.hash==='#staff-manual'?'manual':'roster';
   if(current==='roster'&&next!=='roster')pendingAdmin=false;
   current=next;
   for(const name of Object.keys(views)){views[name].hidden=name!==next;links[name].removeAttribute('aria-current');}
