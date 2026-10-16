@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "node roster-syntax-test.cjs && node roster-database-test.mjs && node roster-ui-test.mjs"
+    "test": "node roster-syntax-test.cjs && node roster-database-test.mjs && node roster-ui-test.mjs && node roster-export-test.cjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8",
