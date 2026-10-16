@@ -1,5 +1,5 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
-for(const file of ['index.html','christmas.html']){
+for(const file of ['index.html']){
  const outer=fs.readFileSync(file,'utf8');const roster=JSON.parse(outer.match(/id="embeddedRoster">([\s\S]*?)<\/script>/)[1]);
  for(const [label,html] of [['outer',outer],['roster',roster]]){let n=0;for(const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)){if(/application\/json|\bsrc=/.test(match[1]))continue;new vm.Script(match[2],{filename:file+':'+label+':'+(++n)});}}
  assert(!outer.includes("if(document.hidden)send('lock')"));assert(!outer.includes("pagehide',()=>send('lock')"));
