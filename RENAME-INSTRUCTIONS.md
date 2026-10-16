@@ -1,6 +1,6 @@
 # 员工管理与每周名单
 
-现有数据库依次执行 roster-rename-staff.sql、roster-staff-membership.sql、roster-access-hardening.sql，再发布 index.html 与 assets。脚本可重复执行。重建数据库需先按原顺序安装已有排班迁移。
+现有数据库依次执行 roster-rename-staff.sql、roster-staff-membership.sql、roster-access-hardening.sql，再发布 index.html 与 CLEANUP-INSTRUCTIONS.md 列出的资源。脚本可重复执行。重建数据库需先按原顺序安装已有排班迁移。
 
 新增员工从悉尼时间添加当周起显示。离职员工保留离职当周，从下周一开始隐藏。以实际操作周计算，与正在浏览的周无关。历史未知入离职日期不猜测。员工编号永久保留，改名全局生效。
 

@@ -1,43 +1,14 @@
-# 简约版资源与界面
+# 资源清理
 
-已移除圣诞页面、自动切换、全部万圣节图案、彩蛋、音效与动画。保留餐厅 Logo、普通文字 Staff Hub、暖白/墨蓝/浅灰配色。
+当前网页使用的本地资源仅有：
 
-管理员：员工操作收进 Staff Management。Manual Time 保留在模式栏，默认点击空白格安排班次，再点取消。More Actions、复制上周与清空本周入口已移除。所有写入保留发布锁与管理员校验。
+- restaurant-logo.143b3cd95e08.webp：原餐厅页头 Logo
+- fw-icon-v2.svg：浏览器矢量图标
+- fw-icon-v2-32.png：浏览器 PNG 兼容图标
+- fw-staff-hub-touch-v2.png：手机主屏幕 FW + STAFF HUB 图标
 
-部署 index.html 与 assets 文件夹。旧资源删除清单：
+已删除全部节日图片、样式和页面，以及旧 SH 图标、旧版图标文件和未采用的整套 FW 页头草稿。网页保持原餐厅 Logo 与普通 Staff Hub 文字。
 
-- assets/christmas-background.png
-- assets/christmas-bell-3d.png
-- assets/christmas-detail.svg
-- assets/christmas-gift.svg
-- assets/christmas-halloween-background.png
-- assets/christmas-icons-3d.png
-- assets/christmas-phoenix-cinematic.png
-- assets/christmas-reference.png
-- assets/christmas-santa-3d.png
-- assets/christmas-sleigh-3d.png
-- assets/christmas-snowman.svg
-- assets/christmas-spectral-stag.png
-- assets/christmas-staff-hub-transparent.svg
-- assets/christmas-star.svg
-- assets/christmas-stocking-3d.png
-- assets/christmas-title-holly.svg
-- assets/christmas-tree.svg
-- assets/christmas-wine-glass-3d.png
-- assets/ghost-scare.svg
-- assets/halloween-background.png
-- assets/halloween-black-hat-ghost.png
-- assets/halloween-candy-bucket-orange.png
-- assets/halloween-candy-bucket.png
-- assets/halloween-classic-pumpkin.png
-- assets/halloween-friendly-ghost.png
-- assets/halloween-icons-3d.png
-- assets/halloween-round-pumpkin.png
-- assets/reference.png
-- assets/staff-hub-transparent.svg
-- christmas.html
-- halloween-background.png
-- halloween-black-hat-ghost.png
-- halloween-candy-bucket-orange.png
-- halloween.css
-- roster-halloween.css
+SQL 文件由 roster-database-test.mjs 按依赖顺序执行，全部保留用于测试与数据库维护。roster-leave-requests.sql 还包含换班函数，roster-disable-leave.sql 负责禁用旧请假入口，两者都不是废弃文件。不要仅凭文件名删除或在生产环境随意重跑旧迁移。
+
+SQL 和测试文件不会被浏览器下载，保留它们不会增加网页流量，也不会向数据库新增记录。
