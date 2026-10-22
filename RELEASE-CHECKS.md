@@ -8,3 +8,7 @@
 - 数据库已完成事务更新；更新前后7周排班、15条员工记录及185条菜单记录的数据指纹一致。
 
 持续检查：pnpm test。
+
+## 2026-10-23 Tools 学习入口
+
+新增 Menu Abbr.、两张笔记的预览和下载、Main vs Rice 与 Rice / Only / M。四项既有测试及 menu-learning-test.mjs 全部通过。生产数据库未修改。
