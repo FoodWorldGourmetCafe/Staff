@@ -1,6 +1,6 @@
 
 <!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="staff-hub-release" content="2026-10-23-staff-hub-v2"><link rel="preload" as="image" type="image/webp" href="restaurant-logo.143b3cd95e08.webp"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="staff-hub-release" content="2026-10-23-staff-hub-v3"><link rel="preload" as="image" type="image/webp" href="restaurant-logo.143b3cd95e08.webp"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Roster · Staff Hub</title>
 <link rel="icon" type="image/svg+xml" href="fw-icon-v2.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="fw-icon-v2-32.png">
@@ -297,6 +297,27 @@ body{background:#F5F4EF;color:var(--text);font:16px/1.45 'Segoe UI',Arial,sans-s
 #installHelp p{font:15px/1.8 'Segoe UI',sans-serif;white-space:pre-line}
 #installHelp button{min-height:44px;border:0;border-radius:8px;background:#173b53;color:#fff;padding:10px 20px;cursor:pointer}
 @media(max-width:700px){.brand-art{gap:8px}#installHub{padding:6px;min-width:36px}#installHub span{display:none}}
+
+/* Keep branding and account tools on one mobile header row. */
+@media(max-width:700px){
+ .hub-header{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px 8px;padding:12px;min-height:0}
+ .hub-header .brand-art{min-width:0;width:auto;gap:6px;flex-wrap:nowrap}
+ .hub-header .brand-logo{width:40px;height:33px}
+ .hub-header .brand-rule{display:none}
+ .hub-header .brand-wordmark h1{font-size:23px;letter-spacing:-.6px}
+ .hub-header #installHub{min-width:28px;min-height:32px;padding:4px;font-size:15px}
+ .hub-header .header-tools{grid-column:2;grid-row:1;margin:0;gap:6px;flex-wrap:nowrap}
+ .hub-header #todayDate{font-size:9px;line-height:1.3;padding:0;border:0;white-space:nowrap}
+ .hub-header .header-tools .admin-avatar{min-width:30px;min-height:30px;width:30px;height:30px}
+ .hub-header .hub-nav{grid-column:1/-1;grid-row:2;width:100%;margin:0;justify-content:center}
+}
+@media(max-width:360px){
+ .hub-header{padding:10px 8px;column-gap:5px}
+ .hub-header .brand-art{gap:4px}
+ .hub-header .brand-logo{width:32px;height:27px}
+ .hub-header .brand-wordmark h1{font-size:19px}
+ .hub-header #todayDate{font-size:8px}
+}
 </style></head><body class="roster-visible">
 
 
