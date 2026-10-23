@@ -37,7 +37,7 @@ for(const file of ['index.html']){
  const beforeRename=clone(state);$('staff-rename-open').click();assert.equal($('staff-new-name').value,'Alice');
  $('staff-new-name').value='Bob';await $('staff-manager-form').onsubmit({preventDefault(){}});assert.ok($('staff-manager-error').textContent.includes('already'));assert.equal(directory[0].name,'Alice');
  $('staff-new-name').value='Alice Smith';await $('staff-manager-form').onsubmit({preventDefault(){}});assert.equal(directory[0].name,'Alice Smith');assert.equal($('staff-manager').open,false);assert.deepEqual(state,beforeRename);assert.ok($('table-body').textContent.includes('Alice Smith'));
- $('approvals-open').click();assert.deepEqual([...window.document.querySelectorAll('.approval-category h3')].map(x=>x.textContent),['申请划班 · 待审批 1','工时变化 · 待审批 0','Bathroom · 待审批 0']);
+ $('approvals-open').click();assert.deepEqual([...window.document.querySelectorAll('.approval-category h3')].map(x=>x.textContent),['Shift Removal · Pending 1','Hours Adjustments · Pending 0','Bathroom · Pending 0']);
  assert.equal(window.document.querySelectorAll('.approval-tabs button').length,3);
  const categories=[...window.document.querySelectorAll('.approval-category')];
  assert.equal(categories.filter(x=>!x.hidden).length,1);
@@ -71,3 +71,4 @@ for(const file of ['index.html']){
  console.log(file+': full page initialization, draft submission, categorized approval, red line, mode persistence, idempotent admin message, logout, Bathroom submission and unavailable swap second confirmation passed');
  await window.happyDOM.abort();
 }
+

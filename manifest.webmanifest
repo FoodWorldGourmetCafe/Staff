@@ -1,0 +1,23 @@
+{
+  "name": "Staff Hub",
+  "short_name": "Staff Hub",
+  "id": "./",
+  "start_url": "./index.html#roster",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F5F4EF",
+  "theme_color": "#F5F4EF",
+  "icons": [
+    {
+      "src": "fw-staff-hub-touch-v2.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "fw-icon-v2.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
