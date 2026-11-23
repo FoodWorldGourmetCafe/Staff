@@ -50,7 +50,7 @@ for(const file of ['index.html']){
  $('admin-mode').click();await tick();await tick();assert.equal($('admin-mode').getAttribute('aria-pressed'),'true');window.dispatchEvent(new window.MessageEvent('message',{source:window.parent,data:{channel:'staff-hub-roster',action:'admin'}}));await tick();assert.equal($('admin-mode').getAttribute('aria-pressed'),'true');
  session=null;callback('SIGNED_OUT',null);await tick();assert.equal($('staff-mode').getAttribute('aria-pressed'),'true');
  const bathroom=window.document.querySelector('[data-cleaning-request="1"]');bathroom.click();assert.equal($('service-request').open,true);$('service-cleaner').value='1';await $('service-form').onsubmit({preventDefault(){}});assert.equal(submitted.p_request.kind,'cleaning');assert.deepEqual(submitted.p_request.actual,[1]);
- assert.equal(window.document.querySelectorAll('.roster-instructions li').length,3);assert.equal(window.document.querySelectorAll('aside.owner').length,0);
+ assert.equal(window.document.querySelector('.roster-instructions'),null);assert.equal(window.document.querySelectorAll('aside.owner').length,0);
  assert.equal($('request-leave'),null);
  $('approvals').close();$('staff-mode').click();
  state.cells[0][9]='59';state.cells[1][9]='unavailable';state.published={cells:clone(state.cells),at:new Date().toISOString()};await window.testLoad();
