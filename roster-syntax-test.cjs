@@ -5,6 +5,48 @@ for(const file of ['index.html']){
  assert(!outer.includes("if(document.hidden)send('lock')"));assert(!outer.includes("pagehide',()=>send('lock')"));
  const calls=[],w={cells:[['','','59']],published:null};const context={record:()=>w,isAdmin:false,rosterLoading:false,lockBusy:false,openServiceRequest:(...args)=>calls.push(args)};vm.createContext(context);
  const open=roster.slice(roster.indexOf('function openRequest('),roster.indexOf("$('request-form').onsubmit"));vm.runInContext(open,context);context.openRequest(0,2);assert.deepEqual(calls,[['withdraw',0,2]]);context.isAdmin=true;context.openRequest(0,2);assert.equal(calls.length,1);context.isAdmin=false;context.rosterLoading=true;context.openRequest(0,2);assert.equal(calls.length,1);
- const storage=new Map();let unlocks=0,locks=0;const mode={isAdmin:false,activeAdminUser:null,localStorage:{getItem:k=>storage.get(k)},showUnlock:async()=>unlocks++,lockAdmin:()=>locks++};vm.createContext(mode);vm.runInContext(roster.slice(roster.indexOf('let restoringAdminMode='),roster.indexOf('async function showUnlock()')),mode);
- (async()=>{await mode.restoreAdminMode('INITIAL_SESSION',{user:{id:'owner'}});assert.equal(unlocks,1);storage.set('staffhub.roster.mode',JSON.stringify({user:'owner',mode:'staff'}));await mode.restoreAdminMode('TOKEN_REFRESHED',{user:{id:'owner'}});assert.equal(unlocks,1);mode.isAdmin=true;mode.activeAdminUser='owner';await mode.restoreAdminMode('TOKEN_REFRESHED',{user:{id:'owner'}});assert.equal(locks,0);await mode.restoreAdminMode('SIGNED_OUT',null);assert.equal(locks,1);console.log(file+': JavaScript syntax, draft request routing, admin persistence and sign-out passed');})().catch(e=>{console.error(e);process.exitCode=1;});
+ const modeStart=roster.indexOf('let modeRequest=0,verifiedAdminUser=null;');
+ const modeEnd=roster.indexOf('const CLEANING_KEY=',modeStart);
+ const storage=new Map(),elements=new Map(),messages=[];
+ const element=id=>{
+  if(!elements.has(id))elements.set(id,{hidden:true,close(){},click(){return this.onclick?.();}});
+  return elements.get(id);
+ };
+ let session=null;
+ const rosterDb={
+  auth:{getSession:async()=>({data:{session}})},
+  from:()=>({select:()=>({eq:(_,id)=>({maybeSingle:async()=>({data:id==='owner'?{user_id:id}:null})})})})
+ };
+ const mode={isAdmin:false,$:element,rosterDb,notify(){},parent:{postMessage:message=>messages.push(message)},localStorage:{getItem:key=>storage.get(key),setItem:(key,value)=>storage.set(key,value)}};
+ vm.createContext(mode);
+ const visibilityRule=roster.match(/function render\(\)\{([^;]+;)/)[1];
+ vm.runInContext('function render(){'+visibilityRule+'} function switchMode(admin){isAdmin=admin;render();}\n'+roster.slice(modeStart,modeEnd),mode);
+ const modeSwitch=element('mode-switch');
+ (async()=>{
+  await mode.restoreAdminMode('INITIAL_SESSION',null);
+  assert(modeSwitch.hidden);
+  session={user:{id:'staff'}};
+  await mode.restoreAdminMode('SIGNED_IN',session);
+  assert(modeSwitch.hidden);
+  await mode.showUnlock();
+  assert.equal(messages[0].action,'login');
+  session={user:{id:'owner'}};
+  await mode.restoreAdminMode('SIGNED_IN',session);
+  assert(mode.isAdmin&&!modeSwitch.hidden);
+  element('staff-mode').click();
+  assert(!mode.isAdmin&&!modeSwitch.hidden);
+  await mode.restoreAdminMode('TOKEN_REFRESHED',session);
+  assert(!mode.isAdmin&&!modeSwitch.hidden);
+  await element('admin-mode').click();
+  assert(mode.isAdmin&&!modeSwitch.hidden);
+  element('staff-mode').click();
+  await mode.restoreAdminMode('SIGNED_OUT',null);
+  assert(!mode.isAdmin&&modeSwitch.hidden);
+  await mode.restoreAdminMode('INITIAL_SESSION',session);
+  assert(!mode.isAdmin&&!modeSwitch.hidden);
+  console.log(file+': JavaScript syntax, draft request routing and roster mode visibility passed');
+ })().catch(error=>{
+  console.error(error);
+  process.exitCode=1;
+ });
 }
